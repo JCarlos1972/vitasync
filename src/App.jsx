@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, createContext, useContext } from "react";
 import {
   AreaChart, Area, LineChart, Line, BarChart, Bar,
   XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList, ReferenceLine, Cell
@@ -17,10 +17,14 @@ const G = {
 const font = `'Outfit','Segoe UI',sans-serif`;
 const mono = `'DM Mono','Courier New',monospace`;
 
+const isMobile = () => typeof window !== "undefined" && window.innerWidth < 768;
+
 const S = {
-  app:{ background:G.bg, minHeight:"100vh", display:"flex", fontFamily:font, color:G.text, overflow:"hidden" },
+  app:{ background:G.bg, minHeight:"100vh", display:"flex", fontFamily:font, color:G.text },
   sidebar:{ width:72, background:G.surface, borderRight:`1px solid ${G.border}`, display:"flex", flexDirection:"column", alignItems:"center", padding:"20px 0", gap:6, position:"fixed", top:0, left:0, height:"100vh", zIndex:100 },
-  main:{ marginLeft:72, flex:1, padding:"28px 32px", maxWidth:1120, overflow:"auto", minHeight:"100vh" },
+  bottomNav:{ position:"fixed", bottom:0, left:0, right:0, height:64, background:G.surface, borderTop:`1px solid ${G.border}`, display:"flex", alignItems:"center", justifyContent:"space-around", zIndex:100, paddingBottom:"env(safe-area-inset-bottom)" },
+  main:{ marginLeft:72, flex:1, padding:"28px 32px", maxWidth:1120, overflowY:"auto", overflowX:"hidden", height:"100vh" },
+  mainMobile:{ marginLeft:0, flex:1, padding:"16px 16px 80px 16px", overflowY:"auto", overflowX:"hidden", height:"100vh", WebkitOverflowScrolling:"touch" },
   card:{ background:G.card, border:`1px solid ${G.border}`, borderRadius:20, padding:24 },
   mc:{ background:G.card, border:`1px solid ${G.border}`, borderRadius:20, padding:20, display:"flex", flexDirection:"column", gap:8 },
   lbl:{ fontSize:11, letterSpacing:"0.12em", textTransform:"uppercase", color:G.muted, fontWeight:600 },
@@ -1427,31 +1431,33 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
 
       <div style={S.card}>
         <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
-          <div style={{width:44,height:44,borderRadius:14,background:calConnected?G.blue+"20":G.dim,border:`2px solid ${calConnected?G.blue:G.border}`,display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <CalendarDays size={22} color={calConnected?G.blue:G.muted}/>
+          <div style={{width:44,height:44,borderRadius:14,background:G.blue+"20",border:`2px solid ${G.blue}40`,display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <CalendarDays size={22} color={G.blue}/>
           </div>
           <div>
-            <div style={{fontWeight:700,fontSize:15}}>Calendario del Móvil</div>
-            <div style={{fontSize:12,color:calConnected?G.blue:G.muted,marginTop:2}}>{calConnected?"● Sincronizado · 4 eventos próximos":"○ No conectado"}</div>
+            <div style={{fontWeight:700,fontSize:15}}>Calendario del iPhone</div>
+            <div style={{fontSize:12,color:G.muted,marginTop:2}}>Abre el evento directamente en tu app Calendario</div>
           </div>
         </div>
-        {!calConnected?(
-          <div>
-            <p style={{fontSize:13,color:G.muted,marginBottom:12,lineHeight:1.6}}>Sincroniza tus entrenamientos y citas con el calendario de tu dispositivo.</p>
-            <button style={S.btn(G.blue)} onClick={()=>setCalConnected(true)}>📅 Conectar Calendario</button>
-          </div>
-        ):(
-          <div>
-            <div style={{...S.lbl,marginBottom:10}}>Próximos eventos</div>
-            {calEvents.map((ev,i)=>(
-              <div key={i} style={{display:"flex",alignItems:"center",gap:12,padding:"10px 0",borderBottom:i<calEvents.length-1?`1px solid ${G.border}`:"none"}}>
-                <div style={{width:4,height:32,borderRadius:2,background:ev.color,flexShrink:0}}/>
-                <div style={{flex:1}}><div style={{fontSize:13,fontWeight:600}}>{ev.title}</div><div style={{fontSize:11,color:G.muted,marginTop:2}}>{ev.date}</div></div>
-              </div>
-            ))}
-            <button style={{...S.btn(G.blue),marginTop:12,fontSize:12,padding:"8px 16px"}} onClick={()=>setCalConnected(false)}>Desconectar</button>
-          </div>
-        )}
+        <div style={{background:G.dim,borderRadius:12,padding:14,marginBottom:14}}>
+          <div style={{fontSize:12,color:G.amber,fontWeight:700,marginBottom:6}}>⚠ Limitación técnica</div>
+          <p style={{fontSize:12,color:G.muted,lineHeight:1.7}}>Las apps web (PWA) no pueden leer ni escribir directamente en el Calendario del iPhone por restricciones de seguridad de Apple. Solo es posible desde una app nativa.</p>
+        </div>
+        <div style={{...S.lbl,marginBottom:10}}>Lo que sí puedes hacer:</div>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          <button style={S.btn(G.blue)} onClick={()=>{
+            const date = new Date(); date.setDate(date.getDate()+1); date.setHours(7,30,0);
+            const end  = new Date(date); end.setMinutes(end.getMinutes()+45);
+            const fmt  = d=>d.toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
+            const ics  = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmt(date)}\nDTEND:${fmt(end)}\nSUMMARY:Entrenamiento VitaSync\nDESCRIPTION:Sesión programada desde VitaSync\nEND:VEVENT\nEND:VCALENDAR`;
+            const blob = new Blob([ics],{type:"text/calendar"});
+            const url  = URL.createObjectURL(blob);
+            const a    = document.createElement("a"); a.href=url; a.download="entrenamiento.ics"; a.click();
+          }}>📅 Exportar evento .ics al Calendario</button>
+          <button style={{...S.btn(G.dim),color:G.text,fontSize:13}} onClick={()=>window.open("calshow://","_blank")}>
+            📱 Abrir app Calendario
+          </button>
+        </div>
       </div>
 
       <div style={S.card}>
@@ -1464,20 +1470,34 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
       </div>
 
       <div style={S.card}>
-        <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:20}}>
-          <div style={{width:48,height:48,borderRadius:14,background:connected?G.accent+"20":G.dim,border:`2px solid ${connected?G.accent:G.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>⌚</div>
-          <div><div style={{fontWeight:700,fontSize:16}}>Amazfit BIP 6 + Zepp</div><div style={{fontSize:13,color:connected?G.accent:G.muted}}>{connected?"● Conectado · Sincronizado hace 2 min":"○ No conectado"}</div></div>
-        </div>
-        {!connected?(
-          <div style={{display:"flex",flexDirection:"column",gap:14}}>
-            <div><div style={{...S.lbl,marginBottom:8}}>Región</div><select style={S.inp} value={region} onChange={e=>setRegion(e.target.value)}><option value="EU">Europa (EU)</option><option value="CN">China (CN)</option><option value="US">EE.UU. (US)</option></select></div>
-            <div><div style={{...S.lbl,marginBottom:8}}>Email Zepp</div><input style={S.inp} placeholder="usuario@ejemplo.com" value={user} onChange={e=>setUser(e.target.value)}/></div>
-            <div><div style={{...S.lbl,marginBottom:8}}>Contraseña</div><input style={S.inp} type="password" value={pass} onChange={e=>setPass(e.target.value)}/></div>
-            <button style={S.btn()} onClick={connect} disabled={loading}>{loading?"Conectando…":"Conectar con Zepp"}</button>
+        <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
+          <div style={{width:48,height:48,borderRadius:14,background:G.dim,border:`2px solid ${G.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>⌚</div>
+          <div>
+            <div style={{fontWeight:700,fontSize:16}}>Amazfit BIP 6 + Zepp</div>
+            <div style={{fontSize:12,color:G.muted,marginTop:2}}>Importa tus datos desde la app Zepp</div>
           </div>
-        ):(
-          <div style={{display:"flex",gap:10}}><button style={{...S.btn(G.blue),flex:1}}>🔄 Sincronizar</button><button style={{...S.btn(G.coral),flex:1}} onClick={()=>setConnected(false)}>Desconectar</button></div>
-        )}
+        </div>
+        <div style={{background:G.dim,borderRadius:12,padding:14,marginBottom:14}}>
+          <div style={{fontSize:12,color:G.amber,fontWeight:700,marginBottom:6}}>⚠ Sin API pública oficial</div>
+          <p style={{fontSize:12,color:G.muted,lineHeight:1.7}}>Zepp/Amazfit no ofrece una API pública para conectar apps de terceros. No es posible acceder a tus datos con usuario y contraseña desde aquí sin violar sus términos de uso.</p>
+        </div>
+        <div style={{...S.lbl,marginBottom:10}}>Cómo importar tus datos reales:</div>
+        <div style={{fontSize:12,color:G.muted,lineHeight:1.9,marginBottom:14}}>
+          1. Abre la app <strong style={{color:G.text}}>Zepp</strong> en tu iPhone<br/>
+          2. Ve a <strong style={{color:G.text}}>Perfil → Exportar datos</strong><br/>
+          3. Descarga el archivo CSV o JSON<br/>
+          4. Impórtalo aquí con el botón de abajo
+        </div>
+        <label style={{...S.btn(G.accent),display:"block",textAlign:"center",cursor:"pointer"}}>
+          📂 Importar CSV de Zepp
+          <input type="file" accept=".csv,.json,.zip" style={{display:"none"}} onChange={e=>{
+            const f=e.target.files[0]; if(!f) return;
+            alert(`Archivo recibido: ${f.name}\n\nEn la siguiente versión procesaremos los datos reales de Zepp.`);
+          }}/>
+        </label>
+        <button style={{...S.btn(G.dim),color:G.text,fontSize:12,marginTop:8,width:"100%"}} onClick={()=>window.open("zepp://","_blank")}>
+          Abrir app Zepp
+        </button>
       </div>
     </div>
   );
@@ -1494,6 +1514,9 @@ const navItems = [
   {id:"settings", Icon:Settings,       label:"Ajustes",  color:null   },
 ];
 
+const RealDataCtx = createContext(null);
+export const useRealData = () => useContext(RealDataCtx);
+
 export default function HealthApp() {
   const [view,setView] = useState("dashboard");
   const [weekMetric,setWeekMetric] = useState("pasos");
@@ -1501,6 +1524,33 @@ export default function HealthApp() {
   const [showNotif,setShowNotif] = useState(false);
   const [notifTime,setNotifTime] = useState("21:00");
   const [morningTime,setMorningTime] = useState("07:30");
+  const [mobile,setMobile] = useState(isMobile());
+  const [realData,setRealData] = useState(null);
+  const [dataStatus,setDataStatus] = useState("loading"); // loading | ok | error
+
+  useEffect(()=>{
+    const fn = ()=>setMobile(window.innerWidth<768);
+    window.addEventListener("resize",fn);
+    return ()=>window.removeEventListener("resize",fn);
+  },[]);
+
+  // Fetch datos reales del reloj
+  useEffect(()=>{
+    const load = async ()=>{
+      try {
+        const res = await fetch("/api/health");
+        if(!res.ok) throw new Error("no data");
+        const d = await res.json();
+        setRealData(d);
+        setDataStatus("ok");
+      } catch {
+        setDataStatus("error");
+      }
+    };
+    load();
+    const t = setInterval(load, 5*60*1000); // refresca cada 5 min
+    return ()=>clearInterval(t);
+  },[]);
 
   const views = {
     dashboard:<Dashboard weekMetric={weekMetric} setWeekMetric={setWeekMetric} profile={profile} onNavigate={setView}/>,
@@ -1512,18 +1562,29 @@ export default function HealthApp() {
     settings: <SettingsView profile={profile} setProfile={setProfile} onNotif={()=>setShowNotif(true)} notifTime={notifTime} morningTime={morningTime}/>,
   };
 
+  // Indicador de datos en vivo
+  const LiveDot = ()=>(
+    <div style={{position:"fixed",top:12,right:16,zIndex:200,display:"flex",alignItems:"center",gap:5,background:G.card,border:`1px solid ${G.border}`,borderRadius:20,padding:"4px 10px",fontSize:10,color:dataStatus==="ok"?G.accent:dataStatus==="loading"?G.amber:G.muted}}>
+      <span style={{width:6,height:6,borderRadius:"50%",background:dataStatus==="ok"?G.accent:dataStatus==="loading"?G.amber:G.muted,display:"inline-block",animation:dataStatus==="loading"?"pulse 1.5s infinite":"none"}}/>
+      {dataStatus==="ok"?"⌚ En vivo":dataStatus==="loading"?"Conectando…":"Sin datos del reloj"}
+    </div>
+  );
+
   return (
+    <RealDataCtx.Provider value={realData}>
     <div style={S.app}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Mono:wght@400;600&display=swap');
         *{box-sizing:border-box;margin:0;padding:0;scrollbar-width:thin;scrollbar-color:${G.dim} transparent;}
-        body{background:${G.bg};}
+        html,body{background:${G.bg};height:100%;overflow:hidden;}
         input,select{transition:border 0.2s;color-scheme:dark;}
         input:focus,select:focus{border-color:${G.accent}60 !important;}
         button:hover{opacity:0.85;transform:scale(0.98);transition:all 0.15s;}
         @keyframes pulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.1)}}
       `}</style>
-      <nav style={S.sidebar}>
+
+      {/* SIDEBAR — solo en escritorio */}
+      {!mobile&&<nav style={S.sidebar}>
         <div style={{color:G.accent,marginBottom:20,display:"flex",alignItems:"center",justifyContent:"center"}}>
           <Heart size={20} fill={G.accent} color={G.accent}/>
         </div>
@@ -1536,10 +1597,30 @@ export default function HealthApp() {
             </div>
           );
         })}
-      </nav>
-      <main style={S.main}>{views[view]}</main>
+      </nav>}
+
+      {/* MAIN CONTENT */}
+      <main style={mobile?S.mainMobile:S.main}>{views[view]}</main>
+
+      {/* BOTTOM NAV — solo en móvil */}
+      {mobile&&<nav style={S.bottomNav}>
+        {navItems.map(n=>{
+          const active = view===n.id;
+          const col = n.color||(active?G.accent:G.muted);
+          return (
+            <div key={n.id} onClick={()=>setView(n.id)}
+              style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"6px 10px",borderRadius:12,background:active?(n.color||G.accent)+"18":"transparent",cursor:"pointer"}}>
+              <n.Icon size={20} strokeWidth={active?2.5:1.8} color={active?col:G.muted}/>
+              <span style={{fontSize:9,color:active?col:G.muted,fontWeight:active?700:400,letterSpacing:"0.04em"}}>{n.label}</span>
+            </div>
+          );
+        })}
+      </nav>}
+
+      <LiveDot/>
       <AIAssistant/>
       {showNotif&&<NotifModal onClose={()=>setShowNotif(false)} notifTime={notifTime} setNotifTime={setNotifTime} morningTime={morningTime} setMorningTime={setMorningTime}/>}
     </div>
+    </RealDataCtx.Provider>
   );
 }
