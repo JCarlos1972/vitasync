@@ -1,6 +1,0 @@
-﻿{
-  "rewrites": [
-    { "source": "/api/health", "destination": "/api/health.js" },
-    { "source": "/:path*", "destination": "/index.html" }
-  ]
-}
