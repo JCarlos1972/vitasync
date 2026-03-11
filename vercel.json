@@ -1,8 +1,9 @@
 ﻿{
-  "functions": {
-    "api/health.js": {
-      "memory": 128,
-      "maxDuration": 10
-    }
-  }
+  "buildCommand": "vite build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/health", "destination": "/api/health.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
