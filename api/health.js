@@ -21,6 +21,7 @@
   const data = await response.json();
   if (!data.result) return res.status(404).json({ error: 'No data yet' });
   let result = data.result;
+  if (typeof result === 'string') result = JSON.parse(result);
   if (Array.isArray(result)) result = result[0];
   if (typeof result === 'string') result = JSON.parse(result);
   res.status(200).json(result);
