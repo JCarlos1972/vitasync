@@ -674,11 +674,31 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
   const W = useWidgets("dashboard");
   const ds = weeklyDatasets[weekMetric];
   const name = profile.name || "Usuario";
+  const rd = useRealData();
+  const steps    = rd?.activity?.steps    ?? 8900;
+  const cals     = rd?.activity?.calories ?? 420;
+  const stands   = rd?.activity?.stands   ?? 9;
+  const slpHrs   = rd?.sleep?.totalHrs    ?? 7.3;
+  const slpDeep  = rd?.sleep?.deepMin     ?? 95;
+  const slpScore = rd?.sleep?.score       ?? 84;
+  const hrRate   = rd?.heart?.rate        ?? 68;
+  const hrRest   = rd?.heart?.resting     ?? 52;
+  const hrMax    = rd?.heart?.max         ?? 147;
+  const spo2     = rd?.heart?.spo2        ?? 97;
+  const stress   = rd?.wellness?.stress   ?? 28;
+  const pai      = rd?.wellness?.pai      ?? 13;
+  const battery  = rd?.wellness?.battery  ?? 25;
+  const readiness = Math.round(Math.min(100, Math.max(0,
+    (slpScore * 0.4) + ((100 - stress) * 0.35) + (spo2 * 0.25)
+  )));
+  const recovery = Math.round(Math.min(100, Math.max(0,
+    (slpScore * 0.5) + ((100 - stress) * 0.3) + (pai * 0.2 * 5)
+  )));
 
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
       <div>
-        <div style={{fontSize:13,color:G.muted,marginBottom:4}}>Sábado, 7 de marzo · 2026</div>
+        <div style={{fontSize:13,color:G.muted,marginBottom:4}}>Jueves, 12 de marzo · 2026</div>
         <h1 style={{fontSize:28,fontWeight:800,letterSpacing:"-0.02em",margin:0}}>Buenos días, {name} ✦</h1>
       </div>
 
@@ -687,10 +707,10 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
         <div style={{...S.lbl,marginBottom:16}}>Estado General de Hoy</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
           {[
-            {label:"Disponibilidad",topic:"Disponibilidad",value:78,  max:100,  sublabel:"%",from:grad.accent[0],to:grad.accent[1],nav:"wellness"},
-            {label:"Pasos",         topic:"Pasos",         value:8900,max:12000,sublabel:"", from:grad.green[0], to:grad.green[1], nav:"activity"},
-            {label:"Sueño",         topic:"Sueño",         value:7.3, max:9,    sublabel:"h",from:grad.blue[0],  to:grad.blue[1],  nav:"sleep"},
-            {label:"Recuperación",  topic:"Recuperación",  value:82,  max:100,  sublabel:"%",from:grad.purple[0],to:grad.purple[1],nav:"wellness"},
+            {label:"Disponibilidad",topic:"Disponibilidad",value:readiness,max:100,  sublabel:"%",from:grad.accent[0],to:grad.accent[1],nav:"wellness"},
+            {label:"Pasos",         topic:"Pasos",         value:steps,   max:12000,sublabel:"", from:grad.green[0], to:grad.green[1], nav:"activity"},
+            {label:"Sueño",         topic:"Sueño",         value:slpHrs,  max:9,    sublabel:"h",from:grad.blue[0],  to:grad.blue[1],  nav:"sleep"},
+            {label:"Recuperación",  topic:"Recuperación",  value:recovery,max:100,  sublabel:"%",from:grad.purple[0],to:grad.purple[1],nav:"wellness"},
           ].map(r=>(
             <div key={r.label} onClick={()=>onNavigate(r.nav)}
               style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0",cursor:"pointer"}}
@@ -712,12 +732,12 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
         </div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
           {[
-            {label:"Pasos",           topic:"Pasos",         value:8900, max:12000, unit:"/ 12K pasos", color:G.accent, nav:"activity"},
-            {label:"Calorías activas",topic:"Calorías",      value:420,  max:600,   unit:"/ 600 kcal",  color:G.amber,  nav:"activity"},
-            {label:"Horas de pie",    topic:"De Pie",        value:9,    max:12,    unit:"/ 12 h",      color:G.green,  nav:"activity"},
+            {label:"Pasos",           topic:"Pasos",         value:steps, max:12000, unit:"/ 12K pasos", color:G.accent, nav:"activity"},
+            {label:"Calorías activas",topic:"Calorías",      value:cals, max:600, unit:"/ 600 kcal",  color:G.amber,  nav:"activity"},
+            {label:"Horas de pie",    topic:"De Pie",        value:stands, max:12, unit:"/ 12 h",      color:G.green,  nav:"activity"},
             {label:"HRV",             topic:"HRV",           value:49,   max:80,    unit:"/ 80 ms",     color:G.purple, nav:"heart"},
-            {label:"Sueño anoche",    topic:"Sueño",         value:7.3,  max:9,     unit:"/ 9 h",       color:G.blue,   nav:"sleep"},
-            {label:"Disponibilidad",  topic:"Disponibilidad",value:78,   max:100,   unit:"%",           color:G.accent, nav:"wellness"},
+            {label:"Sueño anoche",    topic:"Sueño",         value:slpHrs, max:9, unit:"/ 9 h",       color:G.blue,   nav:"sleep"},
+            {label:"Disponibilidad",  topic:"Disponibilidad",value:readiness, max:100, unit:"%",           color:G.accent, nav:"wellness"},
             {label:"Pisos subidos",   topic:"Pisos",         value:8,    max:10,    unit:"/ 10",        color:G.blue,   nav:"activity"},
             {label:"Agua",            topic:"Agua",          value:1600, max:2500,  unit:"/ 2.5 L",     color:G.garnet, nav:"diet"},
           ].map(g=>(
@@ -742,9 +762,9 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
           onMouseEnter={e=>e.currentTarget.style.opacity="0.9"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:10}}>
             <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Sueño Anoche</span><InfoTip topic="Sueño"/></div>
-            <span style={S.badge(G.blue)}>BUENO · 84/100</span>
+            <span style={S.badge(G.blue)}>{slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE"} · {slpScore}/100</span>
           </div>
-          <div style={{fontFamily:mono,fontSize:26,fontWeight:700,color:G.blue,marginBottom:10}}>7h 20<span style={{fontSize:13,color:G.muted,fontFamily:font}}> min</span></div>
+          <div style={{fontFamily:mono,fontSize:26,fontWeight:700,color:G.blue,marginBottom:10}}>{Math.floor(slpHrs)}h {Math.round((slpHrs%1)*60)}<span style={{fontSize:13,color:G.muted,fontFamily:font}}> min</span></div>
           <div style={{display:"flex",gap:8,marginBottom:12}}>
             {sleepPhaseSummary.map(s=>(
               <div key={s.fase} style={{flex:1}}>
@@ -766,11 +786,11 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
             <span style={S.badge(G.coral)}>ÓPTIMO</span>
           </div>
           <div style={{display:"flex",alignItems:"baseline",gap:6,marginBottom:10}}>
-            <span style={{fontFamily:mono,fontSize:40,fontWeight:800,color:G.coral,letterSpacing:"-0.03em"}}>68</span>
+            <span style={{fontFamily:mono,fontSize:40,fontWeight:800,color:G.coral,letterSpacing:"-0.03em"}}>{hrRate}</span>
             <span style={{fontSize:14,color:G.muted}}>bpm · reposo</span>
           </div>
           <div style={{display:"flex",gap:16,marginBottom:10}}>
-            {[{l:"Máx.",v:"147 bpm",c:G.amber},{l:"Mín.",v:"52 bpm",c:G.blue},{l:"Media",v:"78 bpm",c:G.coral}].map(x=>(
+            {[{l:"Máx.",v:`${hrMax} bpm`,c:G.amber},{l:"Mín.",v:`${hrRest} bpm`,c:G.blue},{l:"Media",v:`${hrRate} bpm`,c:G.coral}].map(x=>(
               <div key={x.l}><div style={{fontSize:10,color:G.muted,marginBottom:2}}>{x.l}</div><div style={{fontFamily:mono,fontSize:13,fontWeight:700,color:x.c}}>{x.v}</div></div>
             ))}
           </div>
@@ -787,9 +807,9 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
         {/* Bevel vertical vitals — compact */}
         <div style={{background:G.card,border:`1px solid ${G.border}`,borderRadius:20,overflow:"hidden",display:"flex",flexDirection:"column"}}>
           {[
-            {abbr:"PPM",    value:68,    unit:"bpm",  color:G.red,    nav:"heart",    spark:[58,62,70,85,91,78,72,68]},
+            {abbr:"PPM",    value:hrRate, unit:"bpm", color:G.red,    nav:"heart",    spark:[58,62,70,85,91,78,72,hrRate]},
             {abbr:"VFC",    value:49,    unit:"ms",   color:G.purple, nav:"wellness", spark:[42,38,45,41,48,52,49,49]},
-            {abbr:"ESTRÉS", value:28,    unit:"/100", color:G.amber,  nav:"wellness", spark:[45,55,38,65,28,22,35,28]},
+            {abbr:"ESTRÉS", value:stress, unit:"/100",color:G.amber,  nav:"wellness", spark:[45,55,38,65,28,22,35,stress]},
             {abbr:"SpO₂",   value:97,    unit:"%",    color:G.garnet, nav:"heart",    spark:[97,96,97,98,97,98,97,97]},
             {abbr:"SUEÑO",  value:"7.3", unit:"h",    color:G.blue,   nav:"sleep",    spark:[6.2,7.1,5.8,7.4,8.0,6.9,7.3,7.3]},
             {abbr:"PASOS",  value:"8.9K",unit:"/12K", color:G.accent, nav:"activity", spark:[7840,10200,6300,9100,11400,14200,8900,8900]},
