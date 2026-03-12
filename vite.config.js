@@ -1,12 +1,18 @@
-import { defineConfig } from 'vite'
+﻿import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
-
 export default defineConfig({
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        navigateFallbackDenylist: [/^\/api\//],
+        runtimeCaching: [{
+          urlPattern: /^https:\/\/vitasync-eight\.vercel\.app\/api\//,
+          handler: 'NetworkOnly',
+        }]
+      },
       manifest: {
         name: 'VitaSync',
         short_name: 'VitaSync',
