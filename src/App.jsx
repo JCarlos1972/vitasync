@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, createContext, useContext } from "react";
+﻿import { useState, useRef, useEffect, createContext, useContext } from "react";
 import {
   AreaChart, Area, LineChart, Line, BarChart, Bar,
   XAxis, YAxis, Tooltip, ResponsiveContainer, LabelList, ReferenceLine, Cell
@@ -34,13 +34,13 @@ const S = {
   btn:(c=G.accent)=>({ background:c, color:"#000", border:"none", borderRadius:12, padding:"12px 24px", fontFamily:font, fontWeight:700, fontSize:14, cursor:"pointer", letterSpacing:"0.02em" }),
 };
 
-// ── DATA ──────────────────────────────────────────────────────────────────────
+// â”€â”€ DATA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const weeklyDatasets = {
-  pasos:          { label:"Pasos",    unit:"pasos", color:G.accent, icon:"◈", data:[{d:"L",v:7840},{d:"M",v:10200},{d:"X",v:6300},{d:"J",v:9100},{d:"V",v:11400},{d:"S",v:14200},{d:"D",v:8900}], summary:"8.900 pasos hoy",       badge:"ACTIVO",   chartType:"bar"  },
-  sueño:          { label:"Sueño",    unit:"h",     color:G.blue,   icon:"🌙",data:[{d:"L",v:6.2},{d:"M",v:7.1},{d:"X",v:5.8},{d:"J",v:7.4},{d:"V",v:8.0},{d:"S",v:6.9},{d:"D",v:7.3}],         summary:"7h 20m anoche",         badge:"BUENO",    chartType:"bar"  },
-  entrenamientos: { label:"Entrenos", unit:"min",   color:G.amber,  icon:"🏃",data:[{d:"L",v:32},{d:"M",v:0},{d:"X",v:55},{d:"J",v:0},{d:"V",v:40},{d:"S",v:70},{d:"D",v:0}],                   summary:"3 sesiones · 197 min",  badge:"EN RACHA", chartType:"bar"  },
-  calorias:       { label:"Calorías", unit:"kcal",  color:G.coral,  icon:"◉", data:[{d:"L",v:1820},{d:"M",v:2100},{d:"X",v:1650},{d:"J",v:1980},{d:"V",v:2240},{d:"S",v:2580},{d:"D",v:1900}],   summary:"1.840 kcal hoy",        badge:"OBJETIVO", chartType:"bar"  },
-  hrv:            { label:"HRV",      unit:"ms",    color:G.purple, icon:"∿", data:[{d:"L",v:42},{d:"M",v:38},{d:"X",v:45},{d:"J",v:41},{d:"V",v:48},{d:"S",v:52},{d:"D",v:49}],                 summary:"49ms media",            badge:"BUENO",    chartType:"area" },
+  pasos:          { label:"Pasos",    unit:"pasos", color:G.accent, icon:"â—ˆ", data:[{d:"L",v:7840},{d:"M",v:10200},{d:"X",v:6300},{d:"J",v:9100},{d:"V",v:11400},{d:"S",v:14200},{d:"D",v:8900}], summary:"8.900 pasos hoy",       badge:"ACTIVO",   chartType:"bar"  },
+  sueÃ±o:          { label:"SueÃ±o",    unit:"h",     color:G.blue,   icon:"ðŸŒ™",data:[{d:"L",v:6.2},{d:"M",v:7.1},{d:"X",v:5.8},{d:"J",v:7.4},{d:"V",v:8.0},{d:"S",v:6.9},{d:"D",v:7.3}],         summary:"7h 20m anoche",         badge:"BUENO",    chartType:"bar"  },
+  entrenamientos: { label:"Entrenos", unit:"min",   color:G.amber,  icon:"ðŸƒ",data:[{d:"L",v:32},{d:"M",v:0},{d:"X",v:55},{d:"J",v:0},{d:"V",v:40},{d:"S",v:70},{d:"D",v:0}],                   summary:"3 sesiones Â· 197 min",  badge:"EN RACHA", chartType:"bar"  },
+  calorias:       { label:"CalorÃ­as", unit:"kcal",  color:G.coral,  icon:"â—‰", data:[{d:"L",v:1820},{d:"M",v:2100},{d:"X",v:1650},{d:"J",v:1980},{d:"V",v:2240},{d:"S",v:2580},{d:"D",v:1900}],   summary:"1.840 kcal hoy",        badge:"OBJETIVO", chartType:"bar"  },
+  hrv:            { label:"HRV",      unit:"ms",    color:G.purple, icon:"âˆ¿", data:[{d:"L",v:42},{d:"M",v:38},{d:"X",v:45},{d:"J",v:41},{d:"V",v:48},{d:"S",v:52},{d:"D",v:49}],                 summary:"49ms media",            badge:"BUENO",    chartType:"area" },
 };
 
 const hrData     = [{t:"00",v:58},{t:"03",v:55},{t:"06",v:60},{t:"09",v:82},{t:"12",v:91},{t:"15",v:78},{t:"18",v:95},{t:"21",v:70},{t:"24",v:62}];
@@ -62,7 +62,7 @@ const hrvData    = [{d:"L",v:42},{d:"M",v:38},{d:"X",v:45},{d:"J",v:41},{d:"V",v
 const spo2Data   = [{t:"00",v:97},{t:"04",v:96},{t:"08",v:98},{t:"12",v:97},{t:"16",v:98},{t:"20",v:97},{t:"24",v:96}];
 const dietData   = [
   {name:"Carbohidratos",topic:"Carbohidratos",g:210,max:280,color:G.amber},
-  {name:"Proteínas",    topic:"Proteínas",    g:85, max:120,color:G.blue},
+  {name:"ProteÃ­nas",    topic:"ProteÃ­nas",    g:85, max:120,color:G.blue},
   {name:"Grasas",       topic:"Grasas",       g:52, max:80, color:G.purple},
   {name:"Fibra",        topic:"Fibra",        g:22, max:35, color:G.accent},
 ];
@@ -74,55 +74,55 @@ const activities = [
 
 const workoutDetails = {
   run:{
-    name:"Carrera matutina",type:"run",date:"Hoy · 07:15",duration:"32 min",cal:287,
+    name:"Carrera matutina",type:"run",date:"Hoy Â· 07:15",duration:"32 min",cal:287,
     km:3.8,avgHr:126,maxHr:148,avgSpeed:7.1,maxSpeed:10.2,steps:4820,load:95,cadence:172,
     hrChart:[{t:"0",v:88},{t:"4",v:108},{t:"8",v:126},{t:"12",v:138},{t:"16",v:145},{t:"20",v:148},{t:"24",v:140},{t:"28",v:132},{t:"32",v:120}],
     speedChart:[{t:"0",v:0},{t:"4",v:6.2},{t:"8",v:7.0},{t:"12",v:7.5},{t:"16",v:7.8},{t:"20",v:8.1},{t:"24",v:7.2},{t:"28",v:6.8},{t:"32",v:5.0}],
-    zones:[{z:"Z1 Rec.",pct:8,c:G.blue},{z:"Z2 Base",pct:35,c:G.accent},{z:"Z3 Aeróbico",pct:42,c:G.amber},{z:"Z4 Umbral",pct:15,c:G.coral}],
+    zones:[{z:"Z1 Rec.",pct:8,c:G.blue},{z:"Z2 Base",pct:35,c:G.accent},{z:"Z3 AerÃ³bico",pct:42,c:G.amber},{z:"Z4 Umbral",pct:15,c:G.coral}],
   },
   bike:{
-    name:"Ciclismo",type:"bike",date:"Ayer · 18:30",duration:"55 min",cal:412,
+    name:"Ciclismo",type:"bike",date:"Ayer Â· 18:30",duration:"55 min",cal:412,
     km:22.4,avgHr:121,maxHr:138,avgSpeed:24.4,maxSpeed:38.6,steps:null,load:142,cadence:88,
     hrChart:[{t:"0",v:80},{t:"11",v:115},{t:"22",v:125},{t:"33",v:130},{t:"44",v:122},{t:"55",v:105}],
     speedChart:[{t:"0",v:12},{t:"11",v:26},{t:"22",v:28},{t:"33",v:24},{t:"44",v:30},{t:"55",v:18}],
-    zones:[{z:"Z1 Rec.",pct:18,c:G.blue},{z:"Z2 Base",pct:55,c:G.accent},{z:"Z3 Aeróbico",pct:22,c:G.amber},{z:"Z4 Umbral",pct:5,c:G.coral}],
+    zones:[{z:"Z1 Rec.",pct:18,c:G.blue},{z:"Z2 Base",pct:55,c:G.accent},{z:"Z3 AerÃ³bico",pct:22,c:G.amber},{z:"Z4 Umbral",pct:5,c:G.coral}],
   },
   yoga:{
-    name:"Yoga",type:"yoga",date:"Ayer · 07:00",duration:"40 min",cal:95,
+    name:"Yoga",type:"yoga",date:"Ayer Â· 07:00",duration:"40 min",cal:95,
     km:null,avgHr:78,maxHr:92,avgSpeed:null,maxSpeed:null,steps:null,load:40,cadence:null,
     hrChart:[{t:"0",v:70},{t:"10",v:82},{t:"20",v:88},{t:"30",v:85},{t:"40",v:78}],
     speedChart:null,
-    zones:[{z:"Z1 Rec.",pct:72,c:G.blue},{z:"Z2 Base",pct:28,c:G.accent},{z:"Z3 Aeróbico",pct:0,c:G.amber},{z:"Z4 Umbral",pct:0,c:G.coral}],
+    zones:[{z:"Z1 Rec.",pct:72,c:G.blue},{z:"Z2 Base",pct:28,c:G.accent},{z:"Z3 AerÃ³bico",pct:0,c:G.amber},{z:"Z4 Umbral",pct:0,c:G.coral}],
   },
 };
 
 const infoMap = {
-  "FC":"Número de veces que tu corazón late por minuto. Normal en reposo: 60–100 bpm.",
-  "SpO₂":"Saturación de oxígeno en sangre. >95% es normal. Valores bajos pueden indicar apnea.",
-  "HRV":"Variabilidad entre latidos en ms. Alto HRV = mejor recuperación y menor estrés.",
-  "Disponibilidad":"Puntuación 0–100. Combina sueño, HRV y FC en reposo. >70 = listo para entrenar.",
-  "Estrés":"Estimado desde el HRV. 0–25: relajado · 26–50: bajo · 51–75: medio · >75: alto.",
-  "Cansancio":"Fatiga acumulada. >60% indica necesidad de recuperación o descanso.",
-  "Sueño":"Horas y calidad. Se recomienda 7–9h con >1h profundo y >1.5h REM.",
-  "FC Reposo":"FC mínima nocturna. Valor bajo y estable = buena forma cardiovascular.",
-  "FC Nocturna":"FC más baja durante el sueño. Indica recuperación cardíaca nocturna.",
-  "Recuperación":"Combina HRV, sueño y FC. >75/100 = recuperación excelente.",
-  "Pasos":"Se recomiendan 7.500–10.000 pasos/día para buena salud cardiovascular.",
-  "Calorías":"Calorías activas quemadas. No incluye metabolismo basal.",
-  "Agua":"Ingesta diaria. Recomendación: 35 ml/kg. Más si entrenas o hace calor.",
-  "UA":"Unidad Arbitraria de carga. Combina duración, intensidad y FC.",
-  "Carga Aguda":"Carga de los últimos 7 días. Refleja el estrés reciente.",
-  "Carga Crónica":"Media de los últimos 28 días. Representa tu nivel de forma habitual.",
-  "Ratio AC":"Aguda/Crónica. Óptimo: 0.8–1.3. >1.5 = riesgo de lesión.",
-  "Carbohidratos":"Principal fuente de energía. Objetivo: 45–65% del total calórico.",
-  "Proteínas":"Esenciales para reparar músculo. Objetivo: 1.6–2.2g/kg/día.",
-  "Grasas":"Grasas saludables imprescindibles. Objetivo: 20–35% del total.",
-  "Fibra":"Mejora tránsito y saciedad. Objetivo: 25–38g/día.",
+  "FC":"NÃºmero de veces que tu corazÃ³n late por minuto. Normal en reposo: 60â€“100 bpm.",
+  "SpOâ‚‚":"SaturaciÃ³n de oxÃ­geno en sangre. >95% es normal. Valores bajos pueden indicar apnea.",
+  "HRV":"Variabilidad entre latidos en ms. Alto HRV = mejor recuperaciÃ³n y menor estrÃ©s.",
+  "Disponibilidad":"PuntuaciÃ³n 0â€“100. Combina sueÃ±o, HRV y FC en reposo. >70 = listo para entrenar.",
+  "EstrÃ©s":"Estimado desde el HRV. 0â€“25: relajado Â· 26â€“50: bajo Â· 51â€“75: medio Â· >75: alto.",
+  "Cansancio":"Fatiga acumulada. >60% indica necesidad de recuperaciÃ³n o descanso.",
+  "SueÃ±o":"Horas y calidad. Se recomienda 7â€“9h con >1h profundo y >1.5h REM.",
+  "FC Reposo":"FC mÃ­nima nocturna. Valor bajo y estable = buena forma cardiovascular.",
+  "FC Nocturna":"FC mÃ¡s baja durante el sueÃ±o. Indica recuperaciÃ³n cardÃ­aca nocturna.",
+  "RecuperaciÃ³n":"Combina HRV, sueÃ±o y FC. >75/100 = recuperaciÃ³n excelente.",
+  "Pasos":"Se recomiendan 7.500â€“10.000 pasos/dÃ­a para buena salud cardiovascular.",
+  "CalorÃ­as":"CalorÃ­as activas quemadas. No incluye metabolismo basal.",
+  "Agua":"Ingesta diaria. RecomendaciÃ³n: 35 ml/kg. MÃ¡s si entrenas o hace calor.",
+  "UA":"Unidad Arbitraria de carga. Combina duraciÃ³n, intensidad y FC.",
+  "Carga Aguda":"Carga de los Ãºltimos 7 dÃ­as. Refleja el estrÃ©s reciente.",
+  "Carga CrÃ³nica":"Media de los Ãºltimos 28 dÃ­as. Representa tu nivel de forma habitual.",
+  "Ratio AC":"Aguda/CrÃ³nica. Ã“ptimo: 0.8â€“1.3. >1.5 = riesgo de lesiÃ³n.",
+  "Carbohidratos":"Principal fuente de energÃ­a. Objetivo: 45â€“65% del total calÃ³rico.",
+  "ProteÃ­nas":"Esenciales para reparar mÃºsculo. Objetivo: 1.6â€“2.2g/kg/dÃ­a.",
+  "Grasas":"Grasas saludables imprescindibles. Objetivo: 20â€“35% del total.",
+  "Fibra":"Mejora trÃ¡nsito y saciedad. Objetivo: 25â€“38g/dÃ­a.",
   "Pisos":"Subir escaleras mejora la salud cardiorrespiratoria.",
-  "De Pie":"Estar de pie activa la musculatura postural. Objetivo: alternar cada 30–60 min.",
+  "De Pie":"Estar de pie activa la musculatura postural. Objetivo: alternar cada 30â€“60 min.",
 };
 
-// ── GRADIENT RING ─────────────────────────────────────────────────────────────
+// â”€â”€ GRADIENT RING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let _gid = 0;
 function GradientRing({value,max,colorFrom,colorTo,size=100,label,sublabel,strokeWidth}) {
   const id = useRef(`gr${++_gid}`).current;
@@ -177,7 +177,7 @@ const grad = {
   garnet: ["#C0395A","#E05C89"],
 };
 
-// ── INFOTIP ───────────────────────────────────────────────────────────────────
+// â”€â”€ INFOTIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function InfoTip({topic}) {
   const [show,setShow] = useState(false);
   const text = infoMap[topic] || "";
@@ -188,7 +188,7 @@ function InfoTip({topic}) {
         onMouseEnter={()=>setShow(true)}
         onMouseLeave={()=>setShow(false)}
         style={{width:15,height:15,borderRadius:"50%",background:show?G.accent+"20":G.dim,border:`1px solid ${show?G.accent:G.border}`,display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:8,color:show?G.accent:G.muted,cursor:"default",fontWeight:700,flexShrink:0,userSelect:"none",transition:"all 0.2s"}}
-      >ℹ</span>
+      >â„¹</span>
       {show&&(
         <span style={{position:"absolute",bottom:"calc(100% + 8px)",left:"50%",transform:"translateX(-50%)",background:G.surface,border:`1px solid ${G.accent}40`,borderRadius:12,padding:"10px 14px",fontSize:12,color:G.text,lineHeight:1.6,width:220,zIndex:999,boxShadow:"0 8px 24px #00000080",pointerEvents:"none",whiteSpace:"normal"}}>
           <span style={{fontWeight:700,color:G.accent,display:"block",marginBottom:4}}>{topic}</span>{text}
@@ -226,7 +226,7 @@ const Prog = ({pct,color}) => (
   </div>
 );
 
-// ── SECTION HERO (Bevel-inspired atmospheric header) ──────────────────────────
+// â”€â”€ SECTION HERO (Bevel-inspired atmospheric header) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Rings float on a themed sky that fades into the page bg below
 function SectionHero({accentColor, bgColor, children, minH=220}) {
   return (
@@ -254,7 +254,7 @@ function SectionHero({accentColor, bgColor, children, minH=220}) {
   );
 }
 
-// ── HYPNOGRAM ─────────────────────────────────────────────────────────────────
+// â”€â”€ HYPNOGRAM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Hypnogram({compact=false}) {
   const phaseColors = {0:G.accent, 1:G.blue, 2:G.purple, 3:G.coral};
   const phaseLabels = {0:"Profundo", 1:"Ligero", 2:"REM", 3:"Despierto"};
@@ -302,7 +302,7 @@ function Hypnogram({compact=false}) {
   );
 }
 
-// ── ROUTE MAP ─────────────────────────────────────────────────────────────────
+// â”€â”€ ROUTE MAP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function RouteMap({type}) {
   // GPS-style color-coded route segments by intensity
   const runSegs = [
@@ -382,10 +382,10 @@ function RouteMap({type}) {
   );
 }
 
-// ── WORKOUT DETAIL ─────────────────────────────────────────────────────────────
+// â”€â”€ WORKOUT DETAIL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function WorkoutDetail({type,onBack}) {
   const d = workoutDetails[type] || workoutDetails.run;
-  const icons = {run:"🏃",bike:"🚴",yoga:"🧘"};
+  const icons = {run:"ðŸƒ",bike:"ðŸš´",yoga:"ðŸ§˜"};
   return (
     <div style={{display:"flex",flexDirection:"column",gap:16}}>
       <div style={{display:"flex",alignItems:"center",gap:12}}>
@@ -402,14 +402,14 @@ function WorkoutDetail({type,onBack}) {
       {/* Stats grid */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
         {[
-          {label:"Duración",   value:d.duration,                      color:G.blue,   icon:"⏱"},
-          {label:"Calorías",   value:`${d.cal} kcal`,                 color:G.amber,  icon:"🔥"},
-          {label:"FC Media",   value:`${d.avgHr} bpm`,                color:G.red,    icon:"♥"},
-          {label:"FC Máx.",    value:`${d.maxHr} bpm`,                color:G.coral,  icon:"🔺"},
-          ...(d.km?[{label:"Distancia",  value:`${d.km} km`,           color:G.accent, icon:"📍"}]:[]),
-          ...(d.avgSpeed?[{label:"Vel. Media", value:`${d.avgSpeed} km/h`, color:G.green,  icon:"⚡"}]:[]),
-          ...(d.steps?[{label:"Pasos",       value:d.steps.toLocaleString("es"), color:G.accent, icon:"👟"}]:[]),
-          ...(d.cadence?[{label:"Cadencia",   value:`${d.cadence} spm`, color:G.purple, icon:"↻"}]:[]),
+          {label:"DuraciÃ³n",   value:d.duration,                      color:G.blue,   icon:"â±"},
+          {label:"CalorÃ­as",   value:`${d.cal} kcal`,                 color:G.amber,  icon:"ðŸ”¥"},
+          {label:"FC Media",   value:`${d.avgHr} bpm`,                color:G.red,    icon:"â™¥"},
+          {label:"FC MÃ¡x.",    value:`${d.maxHr} bpm`,                color:G.coral,  icon:"ðŸ”º"},
+          ...(d.km?[{label:"Distancia",  value:`${d.km} km`,           color:G.accent, icon:"ðŸ“"}]:[]),
+          ...(d.avgSpeed?[{label:"Vel. Media", value:`${d.avgSpeed} km/h`, color:G.green,  icon:"âš¡"}]:[]),
+          ...(d.steps?[{label:"Pasos",       value:d.steps.toLocaleString("es"), color:G.accent, icon:"ðŸ‘Ÿ"}]:[]),
+          ...(d.cadence?[{label:"Cadencia",   value:`${d.cadence} spm`, color:G.purple, icon:"â†»"}]:[]),
         ].slice(0,8).map((s,i)=>(
           <div key={i} style={{background:G.surface,borderRadius:14,padding:"12px 12px",border:`1px solid ${s.color}22`}}>
             <div style={{fontSize:11,color:G.muted,marginBottom:4}}>{s.icon} {s.label}</div>
@@ -428,7 +428,7 @@ function WorkoutDetail({type,onBack}) {
 
       {/* FC chart */}
       <div style={S.card}>
-        <div style={{...S.lbl,marginBottom:10}}>Frecuencia Cardíaca</div>
+        <div style={{...S.lbl,marginBottom:10}}>Frecuencia CardÃ­aca</div>
         <ResponsiveContainer width="100%" height={160}>
           <AreaChart data={d.hrChart}>
             <defs><linearGradient id="whr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={G.red} stopOpacity={0.4}/><stop offset="100%" stopColor={G.red} stopOpacity={0}/></linearGradient></defs>
@@ -472,23 +472,23 @@ function WorkoutDetail({type,onBack}) {
           ))}
         </div>
         <div style={{...S.card,background:G.amber+"0D",border:`1px solid ${G.amber}30`,display:"flex",flexDirection:"column",justifyContent:"center",gap:10}}>
-          <div style={{fontSize:13,color:G.amber,fontWeight:700}}>⚡ Carga de entrenamiento</div>
+          <div style={{fontSize:13,color:G.amber,fontWeight:700}}>âš¡ Carga de entrenamiento</div>
           <div style={{fontFamily:mono,fontSize:42,fontWeight:800,color:G.amber,lineHeight:1}}>{d.load}</div>
-          <div style={{fontSize:11,color:G.muted}}>UA · {d.load<60?"Ligero — recuperación activa":d.load<120?"Moderado — buen trabajo aeróbico":d.load<160?"Intenso — 24–48h recuperación":"Muy intenso — descanso necesario"}</div>
+          <div style={{fontSize:11,color:G.muted}}>UA Â· {d.load<60?"Ligero â€” recuperaciÃ³n activa":d.load<120?"Moderado â€” buen trabajo aerÃ³bico":d.load<160?"Intenso â€” 24â€“48h recuperaciÃ³n":"Muy intenso â€” descanso necesario"}</div>
         </div>
       </div>
     </div>
   );
 }
 
-// ── SECTION CUSTOMIZER ────────────────────────────────────────────────────────
+// â”€â”€ SECTION CUSTOMIZER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SectionCustomizer({allWidgets,activeWidgets,onToggle,extra}) {
   const [open,setOpen] = useState(false);
   return (
     <div style={{marginTop:8}}>
       <div onClick={()=>setOpen(o=>!o)} style={{background:G.surface,border:`1px dashed ${G.border}`,borderRadius:16,padding:"14px 20px",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",userSelect:"none"}}>
-        <span style={{fontSize:12,color:G.muted,fontWeight:600,letterSpacing:"0.08em"}}>⊞ PERSONALIZAR SECCIÓN</span>
-        <span style={{fontSize:12,color:G.muted}}>{open?"▲ Cerrar":"▼ Mostrar opciones"}</span>
+        <span style={{fontSize:12,color:G.muted,fontWeight:600,letterSpacing:"0.08em"}}>âŠž PERSONALIZAR SECCIÃ“N</span>
+        <span style={{fontSize:12,color:G.muted}}>{open?"â–² Cerrar":"â–¼ Mostrar opciones"}</span>
       </div>
       {open&&(
         <div style={{background:G.surface,border:`1px solid ${G.border}`,borderRadius:"0 0 16px 16px",padding:"16px 20px",marginTop:-1,display:"flex",flexDirection:"column",gap:10}}>
@@ -498,7 +498,7 @@ function SectionCustomizer({allWidgets,activeWidgets,onToggle,extra}) {
               return (
                 <div key={w.id} onClick={()=>onToggle(w.id)}
                   style={{display:"flex",alignItems:"center",gap:8,padding:"7px 14px",borderRadius:10,cursor:"pointer",border:`1px solid ${on?G.accent:G.border}`,background:on?G.accent+"12":"transparent",transition:"all 0.18s"}}>
-                  <div style={{width:18,height:18,borderRadius:5,background:on?G.accent:G.dim,border:`1px solid ${on?G.accent:G.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:on?"#000":G.muted}}>{on?"✓":""}</div>
+                  <div style={{width:18,height:18,borderRadius:5,background:on?G.accent:G.dim,border:`1px solid ${on?G.accent:G.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:on?"#000":G.muted}}>{on?"âœ“":""}</div>
                   <span style={{fontSize:12,color:on?G.text:G.muted,fontWeight:on?600:400}}>{w.label}</span>
                 </div>
               );
@@ -512,7 +512,7 @@ function SectionCustomizer({allWidgets,activeWidgets,onToggle,extra}) {
   );
 }
 
-// ── NOTIF MODAL ───────────────────────────────────────────────────────────────
+// â”€â”€ NOTIF MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function NotifModal({onClose,notifTime,setNotifTime,morningTime,setMorningTime}) {
   const [tab,setTab] = useState("night");
   const [sentN,setSentN] = useState(false);
@@ -523,42 +523,42 @@ function NotifModal({onClose,notifTime,setNotifTime,morningTime,setMorningTime})
     <div style={{position:"fixed",inset:0,background:"#00000090",zIndex:500,display:"flex",alignItems:"center",justifyContent:"center"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{background:G.card,border:`1px solid ${G.border}`,borderRadius:24,padding:24,width:390,maxWidth:"94vw"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-          <div style={{fontWeight:800,fontSize:16}}>📱 Notificaciones Automáticas</div>
-          <span onClick={onClose} style={{cursor:"pointer",color:G.muted,fontSize:18}}>✕</span>
+          <div style={{fontWeight:800,fontSize:16}}>ðŸ“± Notificaciones AutomÃ¡ticas</div>
+          <span onClick={onClose} style={{cursor:"pointer",color:G.muted,fontSize:18}}>âœ•</span>
         </div>
         <div style={{display:"flex",gap:6,marginBottom:18,background:G.surface,borderRadius:12,padding:4}}>
-          <button style={tabSt(tab==="night")} onClick={()=>setTab("night")}>🌙 Noche</button>
-          <button style={tabSt(tab==="morning")} onClick={()=>setTab("morning")}>☀️ Mañana</button>
+          <button style={tabSt(tab==="night")} onClick={()=>setTab("night")}>ðŸŒ™ Noche</button>
+          <button style={tabSt(tab==="morning")} onClick={()=>setTab("morning")}>â˜€ï¸ MaÃ±ana</button>
         </div>
         {tab==="night"&&<>
           <div style={{background:G.surface,border:`1px solid ${G.border}`,borderRadius:14,padding:"12px 16px",marginBottom:14}}>
-            <div style={{...S.lbl,marginBottom:8}}>🕐 Hora del resumen nocturno</div>
+            <div style={{...S.lbl,marginBottom:8}}>ðŸ• Hora del resumen nocturno</div>
             <div style={{display:"flex",gap:10}}>
               <input type="time" value={notifTime} onChange={e=>setNotifTime(e.target.value)} style={{...S.inp,fontFamily:mono,fontSize:16,fontWeight:700,color:G.accent,flex:1}}/>
-              <button onClick={()=>setSchedN(true)} style={{...S.btn(G.blue),padding:"8px 14px",fontSize:12}}>{schedN?"✓":"Programar"}</button>
+              <button onClick={()=>setSchedN(true)} style={{...S.btn(G.blue),padding:"8px 14px",fontSize:12}}>{schedN?"âœ“":"Programar"}</button>
             </div>
           </div>
-          <button style={{...S.btn(G.accent),width:"100%"}} onClick={()=>setSentN(true)}>{sentN?"✓ Enviada":"📱 Enviar resumen ahora"}</button>
+          <button style={{...S.btn(G.accent),width:"100%"}} onClick={()=>setSentN(true)}>{sentN?"âœ“ Enviada":"ðŸ“± Enviar resumen ahora"}</button>
         </>}
         {tab==="morning"&&<>
           <div style={{background:G.surface,border:`1px solid ${G.border}`,borderRadius:14,padding:"12px 16px",marginBottom:14}}>
-            <div style={{...S.lbl,marginBottom:8}}>☀️ Hora de notificación matutina</div>
+            <div style={{...S.lbl,marginBottom:8}}>â˜€ï¸ Hora de notificaciÃ³n matutina</div>
             <div style={{display:"flex",gap:10}}>
               <input type="time" value={morningTime} onChange={e=>setMorningTime(e.target.value)} style={{...S.inp,fontFamily:mono,fontSize:16,fontWeight:700,color:G.amber,flex:1}}/>
-              <button onClick={()=>setSchedM(true)} style={{...S.btn(G.amber),padding:"8px 14px",fontSize:12}}>{schedM?"✓":"Programar"}</button>
+              <button onClick={()=>setSchedM(true)} style={{...S.btn(G.amber),padding:"8px 14px",fontSize:12}}>{schedM?"âœ“":"Programar"}</button>
             </div>
           </div>
-          <button style={{...S.btn(G.amber),width:"100%"}}>☀️ Enviar ahora</button>
+          <button style={{...S.btn(G.amber),width:"100%"}}>â˜€ï¸ Enviar ahora</button>
         </>}
       </div>
     </div>
   );
 }
 
-// ── AI ASSISTANT ──────────────────────────────────────────────────────────────
+// â”€â”€ AI ASSISTANT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function AIAssistant() {
   const [open,setOpen] = useState(false);
-  const [msgs,setMsgs] = useState([{role:"assistant",content:"¡Hola! Soy tu asistente de salud. Puedo analizar tus datos de sueño, actividad, FC, HRV y más. ¿En qué puedo ayudarte hoy?"}]);
+  const [msgs,setMsgs] = useState([{role:"assistant",content:"Â¡Hola! Soy tu asistente de salud. Puedo analizar tus datos de sueÃ±o, actividad, FC, HRV y mÃ¡s. Â¿En quÃ© puedo ayudarte hoy?"}]);
   const [input,setInput] = useState("");
   const [loading,setLoading] = useState(false);
   const endRef = useRef(null);
@@ -574,29 +574,29 @@ function AIAssistant() {
         headers:{"Content-Type":"application/json","anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
         body:JSON.stringify({
           model:"claude-haiku-4-5-20251001", max_tokens:500,
-          system:`Eres el asistente de salud de VitaSync. Responde SIEMPRE en español.
-DATOS HOY: Sueño 7h20m/84pts · FC 68bpm/máx147 · SpO₂ 97% · HRV 49ms · Estrés 28/100 · Pasos 8900/12000 · De pie 9h/12h · Agua 1.6L.
-REGLAS: emojis+bullets · cita datos reales · da acción concreta · máx 150 palabras.
-FORMATO: **📊 Análisis:** bullets \n**✅ Hoy puedes:** acción concreta`,
+          system:`Eres el asistente de salud de VitaSync. Responde SIEMPRE en espaÃ±ol.
+DATOS HOY: SueÃ±o 7h20m/84pts Â· FC 68bpm/mÃ¡x147 Â· SpOâ‚‚ 97% Â· HRV 49ms Â· EstrÃ©s 28/100 Â· Pasos 8900/12000 Â· De pie 9h/12h Â· Agua 1.6L.
+REGLAS: emojis+bullets Â· cita datos reales Â· da acciÃ³n concreta Â· mÃ¡x 150 palabras.
+FORMATO: **ðŸ“Š AnÃ¡lisis:** bullets \n**âœ… Hoy puedes:** acciÃ³n concreta`,
           messages:newMsgs.map(m=>({role:m.role,content:m.content}))
         })
       });
       const d = await res.json();
       setMsgs(m=>[...m,{role:"assistant",content:d.content?.[0]?.text||`Error: ${JSON.stringify(d.error||d)}`}]);
     } catch(e) {
-      setMsgs(m=>[...m,{role:"assistant",content:`Error de conexión: ${e.message}`}]);
+      setMsgs(m=>[...m,{role:"assistant",content:`Error de conexiÃ³n: ${e.message}`}]);
     }
     setLoading(false);
   };
-  const sugs = ["¿Cómo estuvo mi sueño?","¿Debería entrenar hoy?","¿Cómo mejorar mi HRV?","Resumen del día"];
+  const sugs = ["Â¿CÃ³mo estuvo mi sueÃ±o?","Â¿DeberÃ­a entrenar hoy?","Â¿CÃ³mo mejorar mi HRV?","Resumen del dÃ­a"];
   return (
     <>
-      <div onClick={()=>setOpen(o=>!o)} style={{position:"fixed",bottom:28,right:28,width:54,height:54,borderRadius:"50%",background:G.accent,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:`0 4px 20px ${G.accent}60`,zIndex:200,fontSize:22,transition:"transform 0.2s",transform:open?"rotate(45deg)":"none"}}>{open?"✕":"✦"}</div>
+      <div onClick={()=>setOpen(o=>!o)} style={{position:"fixed",bottom:28,right:28,width:54,height:54,borderRadius:"50%",background:G.accent,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",boxShadow:`0 4px 20px ${G.accent}60`,zIndex:200,fontSize:22,transition:"transform 0.2s",transform:open?"rotate(45deg)":"none"}}>{open?"âœ•":"âœ¦"}</div>
       {open&&(
         <div style={{position:"fixed",bottom:96,right:28,width:340,maxHeight:"70vh",background:G.card,border:`1px solid ${G.border}`,borderRadius:24,display:"flex",flexDirection:"column",zIndex:200,boxShadow:"0 12px 48px #00000080",overflow:"hidden"}}>
           <div style={{padding:"16px 20px",borderBottom:`1px solid ${G.border}`,display:"flex",alignItems:"center",gap:12,background:G.surface}}>
-            <div style={{width:36,height:36,borderRadius:"50%",background:G.accent+"20",border:`1px solid ${G.accent}40`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>✦</div>
-            <div><div style={{fontWeight:700,fontSize:14}}>Asistente VitaSync</div><div style={{fontSize:11,color:G.accent}}>● Activo · IA con tus datos</div></div>
+            <div style={{width:36,height:36,borderRadius:"50%",background:G.accent+"20",border:`1px solid ${G.accent}40`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16}}>âœ¦</div>
+            <div><div style={{fontWeight:700,fontSize:14}}>Asistente VitaSync</div><div style={{fontSize:11,color:G.accent}}>â— Activo Â· IA con tus datos</div></div>
           </div>
           <div style={{flex:1,overflowY:"auto",padding:16,display:"flex",flexDirection:"column",gap:10}}>
             {msgs.map((m,i)=>{
@@ -618,8 +618,8 @@ FORMATO: **📊 Análisis:** bullets \n**✅ Hoy puedes:** acción concreta`,
             {sugs.map(s=><button key={s} onClick={()=>setInput(s)} style={{padding:"5px 10px",borderRadius:99,fontSize:11,background:G.dim,border:`1px solid ${G.border}`,color:G.muted,cursor:"pointer",fontFamily:font}}>{s}</button>)}
           </div>}
           <div style={{padding:"12px 14px",borderTop:`1px solid ${G.border}`,display:"flex",gap:8}}>
-            <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Pregunta sobre tu salud…" style={{...S.inp,fontSize:13,padding:"9px 14px",flex:1}}/>
-            <button onClick={send} style={{...S.btn(G.accent),padding:"9px 14px",fontSize:14,flexShrink:0}}>↑</button>
+            <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} placeholder="Pregunta sobre tu saludâ€¦" style={{...S.inp,fontSize:13,padding:"9px 14px",flex:1}}/>
+            <button onClick={send} style={{...S.btn(G.accent),padding:"9px 14px",fontSize:14,flexShrink:0}}>â†‘</button>
           </div>
         </div>
       )}
@@ -627,37 +627,37 @@ FORMATO: **📊 Análisis:** bullets \n**✅ Hoy puedes:** acción concreta`,
   );
 }
 
-// ── WIDGET REGISTRY ───────────────────────────────────────────────────────────
+// â”€â”€ WIDGET REGISTRY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const defaultWidgets = {
   dashboard:{
     all:[
       {id:"rings",       label:"Anillos vitales"},
       {id:"importantData",label:"Progreso objetivos"},
-      {id:"sleepCard",   label:"Sueño anoche"},
+      {id:"sleepCard",   label:"SueÃ±o anoche"},
       {id:"kpis",        label:"FC + Panel vitals"},
-      {id:"weekChart",   label:"Gráfico semanal"},
-      {id:"wellness",    label:"Estrés/HRV/Cansancio"},
+      {id:"weekChart",   label:"GrÃ¡fico semanal"},
+      {id:"wellness",    label:"EstrÃ©s/HRV/Cansancio"},
     ],
     active:["rings","importantData","sleepCard","kpis","weekChart"]
   },
   heart:{
-    all:[{id:"rings",label:"Anillos FC/SpO₂/HRV"},{id:"hrChart",label:"Gráfica FC diaria"},{id:"spo2hrv",label:"SpO₂ y HRV"},{id:"zones",label:"Zonas de FC"}],
+    all:[{id:"rings",label:"Anillos FC/SpOâ‚‚/HRV"},{id:"hrChart",label:"GrÃ¡fica FC diaria"},{id:"spo2hrv",label:"SpOâ‚‚ y HRV"},{id:"zones",label:"Zonas de FC"}],
     active:["rings","hrChart","spo2hrv","zones"]
   },
   sleep:{
-    all:[{id:"rings",label:"Anillo puntuación"},{id:"hypno",label:"Hipnograma fases"},{id:"weekBars",label:"Sueño semanal"},{id:"timings",label:"Horarios y latencia"}],
+    all:[{id:"rings",label:"Anillo puntuaciÃ³n"},{id:"hypno",label:"Hipnograma fases"},{id:"weekBars",label:"SueÃ±o semanal"},{id:"timings",label:"Horarios y latencia"}],
     active:["rings","hypno","weekBars","timings"]
   },
   activity:{
-    all:[{id:"rings",label:"Anillos objetivos"},{id:"stepsChart",label:"Gráfica pasos"},{id:"actLog",label:"Registro actividades"},{id:"trainLoad",label:"Carga Entrenamiento"}],
+    all:[{id:"rings",label:"Anillos objetivos"},{id:"stepsChart",label:"GrÃ¡fica pasos"},{id:"actLog",label:"Registro actividades"},{id:"trainLoad",label:"Carga Entrenamiento"}],
     active:["rings","stepsChart","actLog","trainLoad"]
   },
   wellness:{
-    all:[{id:"rings",label:"Anillos bienestar"},{id:"stressDetail",label:"Detalle Estrés"},{id:"hrv",label:"HRV semana"},{id:"recs",label:"Recomendaciones"}],
+    all:[{id:"rings",label:"Anillos bienestar"},{id:"stressDetail",label:"Detalle EstrÃ©s"},{id:"hrv",label:"HRV semana"},{id:"recs",label:"Recomendaciones"}],
     active:["rings","stressDetail","hrv","recs"]
   },
   diet:{
-    all:[{id:"rings",label:"Anillos nutrición"},{id:"macros",label:"Macronutrientes"},{id:"mealLog",label:"Registro comidas"}],
+    all:[{id:"rings",label:"Anillos nutriciÃ³n"},{id:"macros",label:"Macronutrientes"},{id:"mealLog",label:"Registro comidas"}],
     active:["rings","macros","mealLog"]
   },
 };
@@ -669,7 +669,7 @@ function useWidgets(sec) {
   return {active,toggle,has,all:defaultWidgets[sec].all};
 }
 
-// ── DASHBOARD ─────────────────────────────────────────────────────────────────
+// â”€â”€ DASHBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
   const W = useWidgets("dashboard");
   const ds = weeklyDatasets[weekMetric];
@@ -699,7 +699,7 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
       <div>
         <div style={{fontSize:13,color:G.muted,marginBottom:4}}>{new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</div>
-        <h1 style={{fontSize:28,fontWeight:800,letterSpacing:"-0.02em",margin:0}}>Buenos días, {name} ✦</h1>
+        <h1 style={{fontSize:28,fontWeight:800,letterSpacing:"-0.02em",margin:0}}>Buenos dÃ­as, {name} âœ¦</h1>
       </div>
 
       {/* TOP RINGS */}
@@ -709,8 +709,8 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
           {[
             {label:"Disponibilidad",topic:"Disponibilidad",value:readiness,max:100,  sublabel:"%",from:grad.accent[0],to:grad.accent[1],nav:"wellness"},
             {label:"Pasos",         topic:"Pasos",         value:steps,   max:12000,sublabel:"", from:grad.green[0], to:grad.green[1], nav:"activity"},
-            {label:"Sueño",         topic:"Sueño",         value:slpHrs,  max:9,    sublabel:"h",from:grad.blue[0],  to:grad.blue[1],  nav:"sleep"},
-            {label:"Recuperación",  topic:"Recuperación",  value:recovery,max:100,  sublabel:"%",from:grad.purple[0],to:grad.purple[1],nav:"wellness"},
+            {label:"SueÃ±o",         topic:"SueÃ±o",         value:slpHrs,  max:9,    sublabel:"h",from:grad.blue[0],  to:grad.blue[1],  nav:"sleep"},
+            {label:"RecuperaciÃ³n",  topic:"RecuperaciÃ³n",  value:recovery,max:100,  sublabel:"%",from:grad.purple[0],to:grad.purple[1],nav:"wellness"},
           ].map(r=>(
             <div key={r.label} onClick={()=>onNavigate(r.nav)}
               style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0",cursor:"pointer"}}
@@ -733,10 +733,10 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12}}>
           {[
             {label:"Pasos",           topic:"Pasos",         value:steps, max:12000, unit:"/ 12K pasos", color:G.accent, nav:"activity"},
-            {label:"Calorías activas",topic:"Calorías",      value:cals, max:600, unit:"/ 600 kcal",  color:G.amber,  nav:"activity"},
+            {label:"CalorÃ­as activas",topic:"CalorÃ­as",      value:cals, max:600, unit:"/ 600 kcal",  color:G.amber,  nav:"activity"},
             {label:"Horas de pie",    topic:"De Pie",        value:stands, max:12, unit:"/ 12 h",      color:G.green,  nav:"activity"},
             {label:"HRV",             topic:"HRV",           value:49,   max:80,    unit:"/ 80 ms",     color:G.purple, nav:"heart"},
-            {label:"Sueño anoche",    topic:"Sueño",         value:slpHrs, max:9, unit:"/ 9 h",       color:G.blue,   nav:"sleep"},
+            {label:"SueÃ±o anoche",    topic:"SueÃ±o",         value:slpHrs, max:9, unit:"/ 9 h",       color:G.blue,   nav:"sleep"},
             {label:"Disponibilidad",  topic:"Disponibilidad",value:readiness, max:100, unit:"%",           color:G.accent, nav:"wellness"},
             {label:"Pisos subidos",   topic:"Pisos",         value:8,    max:10,    unit:"/ 10",        color:G.blue,   nav:"activity"},
             {label:"Agua",            topic:"Agua",          value:1600, max:2500,  unit:"/ 2.5 L",     color:G.garnet, nav:"diet"},
@@ -756,13 +756,13 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
         </div>
       </div>}
 
-      {/* SUEÑO ANOCHE */}
+      {/* SUEÃ‘O ANOCHE */}
       {W.has("sleepCard")&&(
         <div onClick={()=>onNavigate("sleep")} style={{...S.card,cursor:"pointer"}}
           onMouseEnter={e=>e.currentTarget.style.opacity="0.9"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:10}}>
-            <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Sueño Anoche</span><InfoTip topic="Sueño"/></div>
-            <span style={S.badge(G.blue)}>{slpBadge ?? (slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE")} · {slpScore}/100</span>
+            <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>SueÃ±o Anoche</span><InfoTip topic="SueÃ±o"/></div>
+            <span style={S.badge(G.blue)}>{slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE"} Â· {slpScore}/100</span>
           </div>
           <div style={{fontFamily:mono,fontSize:26,fontWeight:700,color:G.blue,marginBottom:10}}>{Math.floor(slpHrs)}h {Math.round((slpHrs%1)*60)}<span style={{fontSize:13,color:G.muted,fontFamily:font}}> min</span></div>
           <div style={{display:"flex",gap:8,marginBottom:12}}>
@@ -777,20 +777,20 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
         </div>
       )}
 
-      {/* FC + BEVEL PANEL — now 8 rows including Estrés + HRV + Disponibilidad */}
+      {/* FC + BEVEL PANEL â€” now 8 rows including EstrÃ©s + HRV + Disponibilidad */}
       {W.has("kpis")&&<div style={{display:"grid",gridTemplateColumns:"1fr 310px",gap:16}}>
         <div onClick={()=>onNavigate("heart")} style={{...S.card,cursor:"pointer"}}
           onMouseEnter={e=>e.currentTarget.style.opacity="0.9"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
-            <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Frecuencia Cardíaca</span><InfoTip topic="FC"/></div>
-            <span style={S.badge(G.coral)}>ÓPTIMO</span>
+            <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Frecuencia CardÃ­aca</span><InfoTip topic="FC"/></div>
+            <span style={S.badge(G.coral)}>Ã“PTIMO</span>
           </div>
           <div style={{display:"flex",alignItems:"baseline",gap:6,marginBottom:10}}>
             <span style={{fontFamily:mono,fontSize:40,fontWeight:800,color:G.coral,letterSpacing:"-0.03em"}}>{hrRate}</span>
-            <span style={{fontSize:14,color:G.muted}}>bpm · reposo</span>
+            <span style={{fontSize:14,color:G.muted}}>bpm Â· reposo</span>
           </div>
           <div style={{display:"flex",gap:16,marginBottom:10}}>
-            {[{l:"Máx.",v:`${hrMax} bpm`,c:G.amber},{l:"Mín.",v:`${hrRest} bpm`,c:G.blue},{l:"Media",v:`${hrRate} bpm`,c:G.coral}].map(x=>(
+            {[{l:"MÃ¡x.",v:`${hrMax} bpm`,c:G.amber},{l:"MÃ­n.",v:`${hrRest} bpm`,c:G.blue},{l:"Media",v:`${hrRate} bpm`,c:G.coral}].map(x=>(
               <div key={x.l}><div style={{fontSize:10,color:G.muted,marginBottom:2}}>{x.l}</div><div style={{fontFamily:mono,fontSize:13,fontWeight:700,color:x.c}}>{x.v}</div></div>
             ))}
           </div>
@@ -804,14 +804,14 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
           </ResponsiveContainer>
         </div>
 
-        {/* Bevel vertical vitals — compact */}
+        {/* Bevel vertical vitals â€” compact */}
         <div style={{background:G.card,border:`1px solid ${G.border}`,borderRadius:20,overflow:"hidden",display:"flex",flexDirection:"column"}}>
           {[
             {abbr:"PPM",    value:hrRate, unit:"bpm", color:G.red,    nav:"heart",    spark:[58,62,70,85,91,78,72,hrRate]},
             {abbr:"VFC",    value:49,    unit:"ms",   color:G.purple, nav:"wellness", spark:[42,38,45,41,48,52,49,49]},
-            {abbr:"ESTRÉS", value:stress, unit:"/100",color:G.amber,  nav:"wellness", spark:[45,55,38,65,28,22,35,stress]},
-            {abbr:"SpO₂",   value:97,    unit:"%",    color:G.garnet, nav:"heart",    spark:[97,96,97,98,97,98,97,97]},
-            {abbr:"SUEÑO",  value:"7.3", unit:"h",    color:G.blue,   nav:"sleep",    spark:[6.2,7.1,5.8,7.4,8.0,6.9,7.3,7.3]},
+            {abbr:"ESTRÃ‰S", value:stress, unit:"/100",color:G.amber,  nav:"wellness", spark:[45,55,38,65,28,22,35,stress]},
+            {abbr:"SpOâ‚‚",   value:97,    unit:"%",    color:G.garnet, nav:"heart",    spark:[97,96,97,98,97,98,97,97]},
+            {abbr:"SUEÃ‘O",  value:"7.3", unit:"h",    color:G.blue,   nav:"sleep",    spark:[6.2,7.1,5.8,7.4,8.0,6.9,7.3,7.3]},
             {abbr:"PASOS",  value:"8.9K",unit:"/12K", color:G.accent, nav:"activity", spark:[7840,10200,6300,9100,11400,14200,8900,8900]},
             {abbr:"DE PIE", value:"9",   unit:"/12h", color:G.green,  nav:"activity", spark:[1,2,3,2,3,4,2,3]},
             {abbr:"DISP.",  value:"78",  unit:"%",    color:G.accent, nav:"wellness", spark:[65,70,72,68,75,78,76,78]},
@@ -844,11 +844,11 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
         </div>
       </div>}
 
-      {/* GRÁFICO SEMANAL */}
+      {/* GRÃFICO SEMANAL */}
       {W.has("weekChart")&&<div style={S.card}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
           <div>
-            <span style={S.lbl}>Semana · {ds.label}</span>
+            <span style={S.lbl}>Semana Â· {ds.label}</span>
             <div style={{fontFamily:mono,fontSize:14,fontWeight:700,color:ds.color,marginTop:4}}>{ds.icon} {ds.summary}</div>
           </div>
           <span style={S.badge(ds.color)}>{ds.badge}</span>
@@ -874,7 +874,7 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
       {/* WELLNESS STRIP */}
       {W.has("wellness")&&<div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:14}}>
         {[
-          {label:"Nivel de Estrés",topic:"Estrés",   value:28,max:100,color:G.amber, unit:"/100",note:"Bajo"},
+          {label:"Nivel de EstrÃ©s",topic:"EstrÃ©s",   value:28,max:100,color:G.amber, unit:"/100",note:"Bajo"},
           {label:"HRV",           topic:"HRV",        value:49,max:80, color:G.purple,unit:"ms",  note:"Bueno"},
           {label:"Cansancio",     topic:"Cansancio",  value:35,max:100,color:G.coral, unit:"%",   note:"Descansado"},
         ].map(w=>(
@@ -893,7 +893,7 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
       <SectionCustomizer allWidgets={W.all} activeWidgets={W.active} onToggle={W.toggle}
         extra={
           <div style={{borderTop:`1px solid ${G.border}`,paddingTop:12,marginTop:4}}>
-            <div style={{...S.lbl,marginBottom:8}}>Gráfico semanal — métrica</div>
+            <div style={{...S.lbl,marginBottom:8}}>GrÃ¡fico semanal â€” mÃ©trica</div>
             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
               {Object.entries(weeklyDatasets).map(([key,val])=>{
                 const act = weekMetric===key;
@@ -907,7 +907,7 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
   );
 }
 
-// ── HEART VIEW ────────────────────────────────────────────────────────────────
+// â”€â”€ HEART VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function HeartView() {
   const W = useWidgets("heart");
   const rd = useRealData();
@@ -920,16 +920,16 @@ function HeartView() {
       <SectionHero accentColor="#FF3B30" bgColor="#3A0010">
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
-            <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#FF7070",fontWeight:600,marginBottom:6}}>Salud Cardíaca</div>
-            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Corazón & Circulación</h2>
+            <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#FF7070",fontWeight:600,marginBottom:6}}>Salud CardÃ­aca</div>
+            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>CorazÃ³n & CirculaciÃ³n</h2>
           </div>
           <Heart size={34} color="#FF3B30" style={{opacity:0.85}}/>
         </div>
         {W.has("rings")&&<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
           {[
             {label:"FC Reposo",topic:"FC Reposo",value:hrRest,max:100,sublabel:"bpm",from:grad.red[0],   to:grad.red[1]},
-            ...(spo2?[{label:"SpO₂",topic:"SpO₂",value:spo2,max:100,sublabel:"%",from:grad.garnet[0],to:grad.garnet[1]}]:[]),
-            {label:"FC Máx.", topic:"FC",        value:hrMax, max:200,sublabel:"bpm",from:grad.amber[0], to:grad.amber[1]},
+            ...(spo2?[{label:"SpOâ‚‚",topic:"SpOâ‚‚",value:spo2,max:100,sublabel:"%",from:grad.garnet[0],to:grad.garnet[1]}]:[]),
+            {label:"FC MÃ¡x.", topic:"FC",        value:hrMax, max:200,sublabel:"bpm",from:grad.amber[0], to:grad.amber[1]},
           ].map(r=>(
             <div key={r.label} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0"}}>
               <GradientRing value={r.value} max={r.max} colorFrom={r.from} colorTo={r.to} size={94} label={r.value} sublabel={r.sublabel}/>
@@ -941,11 +941,11 @@ function HeartView() {
 
       {W.has("hrChart")&&<div style={S.card}>
         <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-          <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Frecuencia Cardíaca — Hoy</span><InfoTip topic="FC"/></div>
+          <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Frecuencia CardÃ­aca â€” Hoy</span><InfoTip topic="FC"/></div>
           <span style={S.badge(G.coral)}>ACTIVO</span>
         </div>
         <div style={{display:"flex",gap:28,marginBottom:14,flexWrap:"wrap"}}>
-          {[{l:"Actual",v:`${hrRate}`,u:"bpm",c:G.coral},{l:"Máx.",v:`${hrMax}`,u:"bpm",c:G.amber},{l:"Mín.",v:`${hrRest}`,u:"bpm",c:G.blue},{l:"Media",v:`${hrRate}`,u:"bpm",c:G.muted}].map(x=>(
+          {[{l:"Actual",v:`${hrRate}`,u:"bpm",c:G.coral},{l:"MÃ¡x.",v:`${hrMax}`,u:"bpm",c:G.amber},{l:"MÃ­n.",v:`${hrRest}`,u:"bpm",c:G.blue},{l:"Media",v:`${hrRate}`,u:"bpm",c:G.muted}].map(x=>(
             <div key={x.l}>
               <div style={{fontSize:10,color:G.muted,marginBottom:2}}>{x.l}</div>
               <div style={{fontFamily:mono,fontSize:22,fontWeight:800,color:x.c}}>{x.v}<span style={{fontSize:11,color:G.muted,fontWeight:400}}> {x.u}</span></div>
@@ -965,9 +965,9 @@ function HeartView() {
 
       {W.has("spo2hrv")&&<div style={{display:"grid",gridTemplateColumns:"1fr",gap:16}}>
         <div style={S.card}>
-          <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:4}}><span style={S.lbl}>SpO₂ — 24h</span><InfoTip topic="SpO₂"/></div>
+          <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:4}}><span style={S.lbl}>SpOâ‚‚ â€” 24h</span><InfoTip topic="SpOâ‚‚"/></div>
           <div style={{display:"flex",gap:20,marginBottom:12}}>
-            {[{l:"Actual",v:spo2?`${spo2}`:"--",c:G.garnet},{l:"Mín.",v:spo2?`${spo2-1}`:"--",c:G.coral},{l:"Media",v:spo2?`${spo2}`:"--",c:G.muted}].map(x=>(
+            {[{l:"Actual",v:spo2?`${spo2}`:"--",c:G.garnet},{l:"MÃ­n.",v:spo2?`${spo2-1}`:"--",c:G.coral},{l:"Media",v:spo2?`${spo2}`:"--",c:G.muted}].map(x=>(
               <div key={x.l}>
                 <div style={{fontSize:9,color:G.muted,marginBottom:1}}>{x.l}</div>
                 <div style={{fontFamily:mono,fontSize:20,fontWeight:800,color:x.c}}>{x.v}<span style={{fontSize:10,color:G.muted}}>%</span></div>
@@ -984,7 +984,7 @@ function HeartView() {
           </ResponsiveContainer>
         </div>
         <div style={S.card}>
-          <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:4}}><span style={S.lbl}>HRV — Semana</span><InfoTip topic="HRV"/></div>
+          <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:4}}><span style={S.lbl}>HRV â€” Semana</span><InfoTip topic="HRV"/></div>
           <div style={{display:"flex",gap:20,marginBottom:12}}>
             {[{l:"Hoy",v:"49",c:G.purple},{l:"Media",v:"45",c:G.muted},{l:"Mejor",v:"52",c:G.accent}].map(x=>(
               <div key={x.l}>
@@ -1008,10 +1008,10 @@ function HeartView() {
       </div>}
 
       {W.has("zones")&&<div style={S.card}>
-        <div style={{...S.lbl,marginBottom:16}}>Zonas de FC — Sesión de Hoy</div>
-        {[{zona:"Z1 Recuperación",pct:15,rng:"< 108 bpm",color:G.blue},{zona:"Z2 Base Aeróbica",pct:48,rng:"108–126 bpm",color:G.accent},{zona:"Z3 Aeróbico",pct:28,rng:"126–144 bpm",color:G.amber},{zona:"Z4 Umbral",pct:9,rng:"144–162 bpm",color:G.coral}].map(z=>(
+        <div style={{...S.lbl,marginBottom:16}}>Zonas de FC â€” SesiÃ³n de Hoy</div>
+        {[{zona:"Z1 RecuperaciÃ³n",pct:15,rng:"< 108 bpm",color:G.blue},{zona:"Z2 Base AerÃ³bica",pct:48,rng:"108â€“126 bpm",color:G.accent},{zona:"Z3 AerÃ³bico",pct:28,rng:"126â€“144 bpm",color:G.amber},{zona:"Z4 Umbral",pct:9,rng:"144â€“162 bpm",color:G.coral}].map(z=>(
           <div key={z.zona} style={{marginBottom:12}}>
-            <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}><span style={{fontSize:13}}>{z.zona}</span><span style={{fontFamily:mono,fontSize:13,color:z.color}}>{z.pct}% · <span style={{color:G.muted}}>{z.rng}</span></span></div>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}><span style={{fontSize:13}}>{z.zona}</span><span style={{fontFamily:mono,fontSize:13,color:z.color}}>{z.pct}% Â· <span style={{color:G.muted}}>{z.rng}</span></span></div>
             <Prog pct={z.pct} color={z.color}/>
           </div>
         ))}
@@ -1021,7 +1021,7 @@ function HeartView() {
   );
 }
 
-// ── SLEEP VIEW ────────────────────────────────────────────────────────────────
+// â”€â”€ SLEEP VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SleepView() {
   const W = useWidgets("sleep");
   const rd = useRealData();
@@ -1034,12 +1034,12 @@ function SleepView() {
   const slpBadge = slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE";
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
-      {/* Deep blue night sky — like Bevel screenshot */}
+      {/* Deep blue night sky â€” like Bevel screenshot */}
       <SectionHero accentColor="#4D9EFF" bgColor="#0D1540">
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
-            <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#6080C0",fontWeight:600,marginBottom:6}}>Sueño & Recuperación</div>
-            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Anoche · {slpH}h {slpM}m</h2>
+            <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#6080C0",fontWeight:600,marginBottom:6}}>SueÃ±o & RecuperaciÃ³n</div>
+            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Anoche Â· {slpH}h {slpM}m</h2>
           </div>
           <Moon size={34} color="#4D9EFF" style={{opacity:0.85}}/>
         </div>
@@ -1047,14 +1047,14 @@ function SleepView() {
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:20}}>
             <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
               <GradientRing value={slpScore} max={100} colorFrom={grad.blue[0]} colorTo={grad.blue[1]} size={130} label={slpScore} sublabel="%"/>
-              <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:12,color:"#6080C0"}}>Puntuación de sueño</span><InfoTip topic="Sueño"/></div>
+              <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:12,color:"#6080C0"}}>PuntuaciÃ³n de sueÃ±o</span><InfoTip topic="SueÃ±o"/></div>
             </div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,width:"100%"}}>
-              {[...sleepPhaseSummary,{fase:"FC Mín",min:null,bpm:hrRest,color:G.coral}].map(s=>(
+              {[...sleepPhaseSummary,{fase:"FC MÃ­n",min:null,bpm:hrRest,color:G.coral}].map(s=>(
                 <div key={s.fase} style={{padding:"10px 8px",background:"#FFFFFF0A",borderRadius:12,border:`1px solid ${s.color}28`,textAlign:"center"}}>
                   <div style={{display:"flex",gap:5,alignItems:"center",justifyContent:"center",marginBottom:5}}>
                     <div style={{width:8,height:8,borderRadius:"50%",background:s.color}}/>
-                    <InfoTip topic={s.fase==="FC Mín"?"FC Nocturna":"Sueño"}/>
+                    <InfoTip topic={s.fase==="FC MÃ­n"?"FC Nocturna":"SueÃ±o"}/>
                   </div>
                   <div style={{fontSize:9,color:"#7080A0",marginBottom:3}}>{s.fase}</div>
                   <div style={{fontFamily:mono,fontSize:16,fontWeight:700,color:s.color}}>
@@ -1068,12 +1068,12 @@ function SleepView() {
       </SectionHero>
 
       {W.has("hypno")&&<div style={S.card}>
-        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:16}}><span style={S.lbl}>Fases de Sueño — Anoche</span><InfoTip topic="Sueño"/></div>
+        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:16}}><span style={S.lbl}>Fases de SueÃ±o â€” Anoche</span><InfoTip topic="SueÃ±o"/></div>
         <Hypnogram/>
       </div>}
 
       {W.has("weekBars")&&<div style={S.card}>
-        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:16}}><span style={S.lbl}>Sueño Esta Semana</span><InfoTip topic="Sueño"/></div>
+        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:16}}><span style={S.lbl}>SueÃ±o Esta Semana</span><InfoTip topic="SueÃ±o"/></div>
         <ResponsiveContainer width="100%" height={190}>
           <BarChart data={sleepWeek} barSize={28} margin={{top:22,right:0,left:0,bottom:0}}>
             <XAxis dataKey="d" tick={{fill:G.muted,fontSize:11}} axisLine={false} tickLine={false}/>
@@ -1085,7 +1085,7 @@ function SleepView() {
       </div>}
 
       {W.has("timings")&&<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
-        {[{label:"Hora de Dormir",value:"23:12",note:"Ideal: 22:30–23:30 ✓",color:G.accent},{label:"Hora de Despertar",value:"06:32",note:"Ciclo completo ✓",color:G.accent},{label:"Latencia de Sueño",value:"8 min",note:"Normal < 20m ✓",color:G.blue},{label:"Despertares",value:"2",note:"Bajo (< 3 óptimo) ✓",color:G.purple}].map(m=>(
+        {[{label:"Hora de Dormir",value:"23:12",note:"Ideal: 22:30â€“23:30 âœ“",color:G.accent},{label:"Hora de Despertar",value:"06:32",note:"Ciclo completo âœ“",color:G.accent},{label:"Latencia de SueÃ±o",value:"8 min",note:"Normal < 20m âœ“",color:G.blue},{label:"Despertares",value:"2",note:"Bajo (< 3 Ã³ptimo) âœ“",color:G.purple}].map(m=>(
           <div key={m.label} style={S.mc}>
             <span style={S.lbl}>{m.label}</span>
             <span style={{fontFamily:mono,fontSize:26,fontWeight:700,color:m.color}}>{m.value}</span>
@@ -1098,7 +1098,7 @@ function SleepView() {
   );
 }
 
-// ── ACTIVITY VIEW ─────────────────────────────────────────────────────────────
+// â”€â”€ ACTIVITY VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function ActivityView() {
   const W = useWidgets("activity");
   const [workout,setWorkout] = useState(null);
@@ -1108,11 +1108,11 @@ function ActivityView() {
   const stands = rd?.activity?.stands   ?? 9;
   const actGoals = [
     {label:"Pasos",       topic:"Pasos",    value:steps, max:12000,from:grad.accent[0],to:grad.accent[1]},
-    {label:"Cal. activas",topic:"Calorías", value:cals,  max:600,  from:grad.amber[0], to:grad.amber[1]},
+    {label:"Cal. activas",topic:"CalorÃ­as", value:cals,  max:600,  from:grad.amber[0], to:grad.amber[1]},
     {label:"De Pie",      topic:"De Pie",   value:stands,max:12,   from:grad.green[0], to:grad.green[1]},
     {label:"Pisos",       topic:"Pisos",    value:8,     max:10,   from:grad.purple[0],to:grad.purple[1]},
   ];
-  const actIcons = {run:"🏃",bike:"🚴",yoga:"🧘"};
+  const actIcons = {run:"ðŸƒ",bike:"ðŸš´",yoga:"ðŸ§˜"};
   if (workout) return <WorkoutDetail type={workout} onBack={()=>setWorkout(null)}/>;
 
   return (
@@ -1122,7 +1122,7 @@ function ActivityView() {
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
             <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#C08040",fontWeight:600,marginBottom:6}}>Movimiento & Ejercicio</div>
-            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Actividad Física</h2>
+            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Actividad FÃ­sica</h2>
           </div>
           <Activity size={34} color={G.amber} style={{opacity:0.85}}/>
         </div>
@@ -1141,7 +1141,7 @@ function ActivityView() {
       </SectionHero>
 
       {W.has("stepsChart")&&<div style={S.card}>
-        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:14}}><span style={S.lbl}>Pasos — Esta Semana</span><InfoTip topic="Pasos"/></div>
+        <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:14}}><span style={S.lbl}>Pasos â€” Esta Semana</span><InfoTip topic="Pasos"/></div>
         <ResponsiveContainer width="100%" height={175}>
           <BarChart data={weeklyDatasets.pasos.data} barSize={26} margin={{top:20,right:0,left:0,bottom:0}}>
             <XAxis dataKey="d" tick={{fill:G.muted,fontSize:11}} axisLine={false} tickLine={false}/>
@@ -1162,7 +1162,7 @@ function ActivityView() {
           <div key={i} onClick={()=>setWorkout(a.type)}
             style={{display:"flex",alignItems:"center",gap:16,padding:"14px 0",borderBottom:i<activities.length-1?`1px solid ${G.border}`:"none",cursor:"pointer",transition:"opacity 0.15s"}}
             onMouseEnter={e=>e.currentTarget.style.opacity="0.8"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
-            <div style={{width:48,height:48,borderRadius:14,background:G.dim,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,flexShrink:0}}>{actIcons[a.type]||"🏋️"}</div>
+            <div style={{width:48,height:48,borderRadius:14,background:G.dim,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,flexShrink:0}}>{actIcons[a.type]||"ðŸ‹ï¸"}</div>
             <div style={{flex:1}}>
               <div style={{fontWeight:700,fontSize:14}}>{a.name}</div>
               <div style={{fontSize:12,color:G.muted,marginTop:2}}>{a.time}</div>
@@ -1170,13 +1170,13 @@ function ActivityView() {
             <div style={{textAlign:"right"}}>
               <div style={{fontFamily:mono,fontSize:14,color:G.amber}}>{a.cal} kcal</div>
               <div style={{fontSize:12,marginTop:3,display:"flex",gap:8,justifyContent:"flex-end",flexWrap:"wrap"}}>
-                <span style={{color:G.red}}>♥ {a.hr}</span>
-                <span style={{color:G.muted}}>· {a.duration}</span>
-                {a.steps&&<span style={{color:G.accent}}>◈ {a.steps.toLocaleString("es")}</span>}
-                {a.km&&<span style={{color:G.blue}}>📍 {a.km} km</span>}
+                <span style={{color:G.red}}>â™¥ {a.hr}</span>
+                <span style={{color:G.muted}}>Â· {a.duration}</span>
+                {a.steps&&<span style={{color:G.accent}}>â—ˆ {a.steps.toLocaleString("es")}</span>}
+                {a.km&&<span style={{color:G.blue}}>ðŸ“ {a.km} km</span>}
               </div>
             </div>
-            <div style={{color:G.muted,fontSize:18}}>›</div>
+            <div style={{color:G.muted,fontSize:18}}>â€º</div>
           </div>
         ))}
       </div>}
@@ -1185,7 +1185,7 @@ function ActivityView() {
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
           <div>
             <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:4}}><span style={S.lbl}>Carga de Entrenamiento</span><InfoTip topic="UA"/></div>
-            <div style={{fontFamily:mono,fontSize:28,fontWeight:800,color:G.amber}}>342 <span style={{fontSize:13,color:G.muted,fontFamily:font}}>UA · Esta semana</span></div>
+            <div style={{fontFamily:mono,fontSize:28,fontWeight:800,color:G.amber}}>342 <span style={{fontSize:13,color:G.muted,fontFamily:font}}>UA Â· Esta semana</span></div>
           </div>
           <span style={S.badge(G.amber)}>PRODUCTIVO</span>
         </div>
@@ -1199,7 +1199,7 @@ function ActivityView() {
           </BarChart>
         </ResponsiveContainer>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginTop:16}}>
-          {[{label:"Carga aguda",topic:"Carga Aguda",value:342,color:G.amber,sub:"Últ. 7 días"},{label:"Carga crónica",topic:"Carga Crónica",value:298,color:G.blue,sub:"Últ. 28 días"},{label:"Ratio AC",topic:"Ratio AC",value:"1.15",color:G.accent,sub:"Óptimo: 0.8–1.3"}].map(c=>(
+          {[{label:"Carga aguda",topic:"Carga Aguda",value:342,color:G.amber,sub:"Ãšlt. 7 dÃ­as"},{label:"Carga crÃ³nica",topic:"Carga CrÃ³nica",value:298,color:G.blue,sub:"Ãšlt. 28 dÃ­as"},{label:"Ratio AC",topic:"Ratio AC",value:"1.15",color:G.accent,sub:"Ã“ptimo: 0.8â€“1.3"}].map(c=>(
             <div key={c.label} style={{background:G.surface,borderRadius:14,padding:"12px 14px"}}>
               <div style={{display:"flex",gap:4,alignItems:"center",marginBottom:3}}><span style={{fontSize:10,color:G.muted}}>{c.label}</span><InfoTip topic={c.topic}/></div>
               <div style={{fontFamily:mono,fontSize:20,fontWeight:800,color:c.color}}>{c.value}</div>
@@ -1208,7 +1208,7 @@ function ActivityView() {
           ))}
         </div>
         <div style={{marginTop:14,padding:"12px 16px",background:G.amber+"10",border:`1px solid ${G.amber}30`,borderRadius:12,fontSize:12,color:G.amber,lineHeight:1.6}}>
-          ⚡ Tu ratio AC es 1.15 — zona óptima. Si superas 1.3, aumenta el descanso para evitar lesiones.
+          âš¡ Tu ratio AC es 1.15 â€” zona Ã³ptima. Si superas 1.3, aumenta el descanso para evitar lesiones.
         </div>
       </div>}
       <SectionCustomizer allWidgets={W.all} activeWidgets={W.active} onToggle={W.toggle}/>
@@ -1216,7 +1216,7 @@ function ActivityView() {
   );
 }
 
-// ── WELLNESS VIEW ─────────────────────────────────────────────────────────────
+// â”€â”€ WELLNESS VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function WellnessView() {
   const W = useWidgets("wellness");
   const rd = useRealData();
@@ -1234,16 +1234,16 @@ function WellnessView() {
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
             <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#40A060",fontWeight:600,marginBottom:6}}>Mente & Cuerpo</div>
-            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Bienestar & Estrés</h2>
+            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Bienestar & EstrÃ©s</h2>
           </div>
           <Leaf size={34} color={G.green} style={{opacity:0.85}}/>
         </div>
         {W.has("rings")&&<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
           {[
             {label:"Disponibilidad",topic:"Disponibilidad",value:78,max:100,sublabel:"%",from:grad.accent[0],to:grad.accent[1],badge:"PREPARADO"},
-            {label:"Estrés",       topic:"Estrés",        value:28,max:100,sublabel:"%",from:grad.amber[0], to:grad.amber[1], badge:"BAJO"},
+            {label:"EstrÃ©s",       topic:"EstrÃ©s",        value:28,max:100,sublabel:"%",from:grad.amber[0], to:grad.amber[1], badge:"BAJO"},
             {label:"Cansancio",    topic:"Cansancio",     value:35,max:100,sublabel:"%",from:grad.blue[0],  to:grad.blue[1],  badge:"DESCANSADO"},
-            {label:"Recuperación", topic:"Recuperación",  value:82,max:100,sublabel:"%",from:grad.purple[0],to:grad.purple[1],badge:"MUY BUENA"},
+            {label:"RecuperaciÃ³n", topic:"RecuperaciÃ³n",  value:82,max:100,sublabel:"%",from:grad.purple[0],to:grad.purple[1],badge:"MUY BUENA"},
           ].map(r=>(
             <div key={r.label} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6,padding:"8px 0"}}>
               <GradientRing value={r.value} max={r.max} colorFrom={r.from} colorTo={r.to} size={94} label={r.value} sublabel={r.sublabel}/>
@@ -1256,13 +1256,13 @@ function WellnessView() {
 
       {W.has("stressDetail")&&<div style={S.card}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-          <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Nivel de Estrés — Hoy</span><InfoTip topic="Estrés"/></div>
+          <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Nivel de EstrÃ©s â€” Hoy</span><InfoTip topic="EstrÃ©s"/></div>
           <span style={S.badge(G.accent)}>BAJO</span>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:24,marginBottom:12,flexWrap:"wrap"}}>
           <div>
             <div style={{fontFamily:mono,fontSize:36,fontWeight:800,color:G.amber,letterSpacing:"-0.02em",lineHeight:1}}>28</div>
-            <div style={{fontSize:12,color:G.muted,marginTop:3}}>/ 100 · <span style={{color:G.accent,fontWeight:600}}>Zona óptima</span></div>
+            <div style={{fontSize:12,color:G.muted,marginTop:3}}>/ 100 Â· <span style={{color:G.accent,fontWeight:600}}>Zona Ã³ptima</span></div>
           </div>
           <div style={{display:"flex",gap:16,flex:1,minWidth:180}}>
             {[{label:"Pico hoy",value:"72",sub:"14:00",color:G.amber},{label:"Mejor momento",value:"18",sub:"22:00",color:G.accent},{label:"Promedio",value:"38",sub:"/100",color:G.muted}].map(s=>(
@@ -1291,7 +1291,7 @@ function WellnessView() {
           </AreaChart>
         </ResponsiveContainer>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginTop:12}}>
-          {[{label:"Promedio semana",value:40,color:G.amber},{label:"Días bajo estrés",value:"6/7",color:G.accent},{label:"Días pico alto",value:"1/7",color:G.coral}].map(s=>(
+          {[{label:"Promedio semana",value:40,color:G.amber},{label:"DÃ­as bajo estrÃ©s",value:"6/7",color:G.accent},{label:"DÃ­as pico alto",value:"1/7",color:G.coral}].map(s=>(
             <div key={s.label} style={{background:G.surface,borderRadius:10,padding:"9px 12px"}}>
               <div style={{fontSize:9,color:G.muted,marginBottom:2}}>{s.label}</div>
               <div style={{fontFamily:mono,fontSize:17,fontWeight:700,color:s.color}}>{s.value}</div>
@@ -1302,7 +1302,7 @@ function WellnessView() {
 
       {W.has("hrv")&&<div style={S.card}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-          <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>HRV — Semana</span><InfoTip topic="HRV"/></div>
+          <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>HRV â€” Semana</span><InfoTip topic="HRV"/></div>
           <div style={{display:"flex",gap:16}}>
             {[{l:"Hoy",v:"49",c:G.purple},{l:"Media",v:"45",c:G.muted},{l:"Mejor",v:"52",c:G.accent}].map(x=>(
               <div key={x.l} style={{textAlign:"right"}}>
@@ -1327,7 +1327,7 @@ function WellnessView() {
 
       {W.has("recs")&&<div style={S.card}>
         <div style={{...S.lbl,marginBottom:16}}>Recomendaciones de Hoy</div>
-        {[{icon:"✦",text:"Tu HRV está por encima de tu media semanal (+8%). Buen día para entrenar fuerte.",color:G.accent},{icon:"◎",text:"Estrés bajo todo el día. Mantén descansos activos por la tarde para seguir así.",color:G.blue},{icon:"◈",text:"Llevas 4 días consecutivos superando tu objetivo de pasos. ¡Sigue así!",color:G.purple}].map((r,i)=>(
+        {[{icon:"âœ¦",text:"Tu HRV estÃ¡ por encima de tu media semanal (+8%). Buen dÃ­a para entrenar fuerte.",color:G.accent},{icon:"â—Ž",text:"EstrÃ©s bajo todo el dÃ­a. MantÃ©n descansos activos por la tarde para seguir asÃ­.",color:G.blue},{icon:"â—ˆ",text:"Llevas 4 dÃ­as consecutivos superando tu objetivo de pasos. Â¡Sigue asÃ­!",color:G.purple}].map((r,i)=>(
           <div key={i} style={{display:"flex",gap:14,padding:"14px 0",borderBottom:i<2?`1px solid ${G.border}`:"none"}}>
             <span style={{color:r.color,fontSize:18,flexShrink:0,marginTop:1}}>{r.icon}</span>
             <span style={{fontSize:13,lineHeight:1.6}}>{r.text}</span>
@@ -1339,7 +1339,7 @@ function WellnessView() {
   );
 }
 
-// ── DIET VIEW ─────────────────────────────────────────────────────────────────
+// â”€â”€ DIET VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function DietView() {
   const W = useWidgets("diet");
   const [meals,setMeals] = useState([{name:"Avena con frutas",cal:380,time:"08:15",cat:"Desayuno"},{name:"Pollo a la plancha + arroz",cal:520,time:"14:00",cat:"Comida"},{name:"Yogur griego + nueces",cal:210,time:"17:30",cat:"Merienda"}]);
@@ -1357,15 +1357,15 @@ function DietView() {
       <SectionHero accentColor="#FFB347" bgColor="#2A1540">
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
-            <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#9060C0",fontWeight:600,marginBottom:6}}>Alimentación & Nutrición</div>
-            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Nutrición & Dieta</h2>
+            <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#9060C0",fontWeight:600,marginBottom:6}}>AlimentaciÃ³n & NutriciÃ³n</div>
+            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>NutriciÃ³n & Dieta</h2>
           </div>
           <UtensilsCrossed size={34} color={G.amber} style={{opacity:0.85}}/>
         </div>
         {W.has("rings")&&<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0"}}>
             <GradientRing value={total} max={calGoal} colorFrom={grad.amber[0]} colorTo={grad.amber[1]} size={94} label={total} sublabel={`/${calGoal}`} strokeWidth={9}/>
-            <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:11,color:"#A07040"}}>Cal. ingeridas</span><InfoTip topic="Calorías"/></div>
+            <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:11,color:"#A07040"}}>Cal. ingeridas</span><InfoTip topic="CalorÃ­as"/></div>
           </div>
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0"}}>
             <GradientRing value={waterMl} max={waterGoal} colorFrom={grad.blue[0]} colorTo={grad.blue[1]} size={94} label={`${(waterMl/1000).toFixed(1)}L`} sublabel={`/${(waterGoal/1000).toFixed(1)}L`} strokeWidth={9}/>
@@ -1373,7 +1373,7 @@ function DietView() {
           </div>
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0"}}>
             <GradientRing value={burned} max={600} colorFrom={grad.coral[0]} colorTo={grad.coral[1]} size={94} label={burned} sublabel="/600" strokeWidth={9}/>
-            <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:11,color:"#A06040"}}>Kcal quemadas</span><InfoTip topic="Calorías"/></div>
+            <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:11,color:"#A06040"}}>Kcal quemadas</span><InfoTip topic="CalorÃ­as"/></div>
           </div>
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0"}}>
             <GradientRing value={Math.max(calGoal-total-burned,0)} max={calGoal} colorFrom={grad.accent[0]} colorTo={grad.accent[1]} size={94} label={Math.max(calGoal-total-burned,0)} sublabel="rest." strokeWidth={9}/>
@@ -1382,7 +1382,7 @@ function DietView() {
         </div>}
         {/* Quick water */}
         <div style={{marginTop:18,paddingTop:14,borderTop:"1px solid #FFFFFF12"}}>
-          <div style={{fontSize:11,letterSpacing:"0.1em",textTransform:"uppercase",color:"#6040A0",fontWeight:600,marginBottom:8}}>Añadir Agua</div>
+          <div style={{fontSize:11,letterSpacing:"0.1em",textTransform:"uppercase",color:"#6040A0",fontWeight:600,marginBottom:8}}>AÃ±adir Agua</div>
           <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
             {[150,250,500].map(ml=><button key={ml} onClick={()=>addWater(ml)} style={{background:G.blue+"20",border:`1px solid ${G.blue}35`,borderRadius:10,color:G.blue,fontFamily:font,fontWeight:700,fontSize:13,cursor:"pointer",padding:"7px 14px"}}>+{ml}ml</button>)}
             <input style={{...S.inp,fontSize:13,padding:"7px 12px",width:80,background:"#FFFFFF0C"}} placeholder="Otro" type="number" value={waterInput} onChange={e=>setWaterInput(e.target.value)}/>
@@ -1408,7 +1408,7 @@ function DietView() {
         <div style={{...S.lbl,marginBottom:16}}>Registro de Comidas</div>
         {meals.map((m,i)=>(
           <div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 0",borderBottom:i<meals.length-1?`1px solid ${G.border}`:"none"}}>
-            <div><div style={{fontWeight:600,fontSize:14}}>{m.name}</div><div style={{fontSize:12,color:G.muted,marginTop:2}}>{m.cat} · {m.time}</div></div>
+            <div><div style={{fontWeight:600,fontSize:14}}>{m.name}</div><div style={{fontSize:12,color:G.muted,marginTop:2}}>{m.cat} Â· {m.time}</div></div>
             <span style={{fontFamily:mono,fontSize:15,color:G.amber,fontWeight:700}}>{m.cal} kcal</span>
           </div>
         ))}
@@ -1418,7 +1418,7 @@ function DietView() {
           <select style={{...S.inp,flex:1,minWidth:100}} value={form.cat} onChange={e=>setForm({...form,cat:e.target.value})}>
             {["Desayuno","Almuerzo","Comida","Merienda","Cena"].map(c=><option key={c}>{c}</option>)}
           </select>
-          <button style={S.btn(G.accent)} onClick={addMeal}>+ Añadir</button>
+          <button style={S.btn(G.accent)} onClick={addMeal}>+ AÃ±adir</button>
         </div>
       </div>}
       <SectionCustomizer allWidgets={W.all} activeWidgets={W.active} onToggle={W.toggle}/>
@@ -1426,7 +1426,7 @@ function DietView() {
   );
 }
 
-// ── SETTINGS VIEW ─────────────────────────────────────────────────────────────
+// â”€â”€ SETTINGS VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
   const [connected,setConnected] = useState(false);
   const [user,setUser] = useState("");
@@ -1437,10 +1437,10 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
   const [saved,setSaved] = useState(false);
   const [calConnected,setCalConnected] = useState(false);
   const calEvents = [
-    {title:"Carrera matutina",date:"Lun 10 mar · 07:00",color:G.accent},
-    {title:"Ciclismo con Juan",date:"Mié 12 mar · 18:30",color:G.blue},
-    {title:"Yoga — Recuperación",date:"Jue 13 mar · 07:00",color:G.purple},
-    {title:"Revisión médica",date:"Vie 14 mar · 10:00",color:G.coral},
+    {title:"Carrera matutina",date:"Lun 10 mar Â· 07:00",color:G.accent},
+    {title:"Ciclismo con Juan",date:"MiÃ© 12 mar Â· 18:30",color:G.blue},
+    {title:"Yoga â€” RecuperaciÃ³n",date:"Jue 13 mar Â· 07:00",color:G.purple},
+    {title:"RevisiÃ³n mÃ©dica",date:"Vie 14 mar Â· 10:00",color:G.coral},
   ];
   const connect = () => { if(!user||!pass) return; setLoading(true); setTimeout(()=>{setLoading(false);setConnected(true);},1800); };
   const save = () => { setProfile({...ep}); setSaved(true); setTimeout(()=>setSaved(false),2500); };
@@ -1461,15 +1461,15 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
       <div style={S.card}>
         <div style={{...S.lbl,marginBottom:16}}>Datos Personales</div>
         <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14}}>
-          {[{k:"name",label:"Nombre",type:"text",ph:"Tu nombre"},{k:"age",label:"Edad",type:"number",ph:"—"},{k:"weight",label:"Peso (kg)",type:"number",ph:"—"},{k:"height",label:"Altura (cm)",type:"number",ph:"—"}].map(f=>(
+          {[{k:"name",label:"Nombre",type:"text",ph:"Tu nombre"},{k:"age",label:"Edad",type:"number",ph:"â€”"},{k:"weight",label:"Peso (kg)",type:"number",ph:"â€”"},{k:"height",label:"Altura (cm)",type:"number",ph:"â€”"}].map(f=>(
             <div key={f.k}><div style={{...S.lbl,marginBottom:8}}>{f.label}</div><input style={S.inp} type={f.type} placeholder={f.ph} value={ep[f.k]||""} onChange={e=>setEp({...ep,[f.k]:e.target.value})}/></div>
           ))}
-          <div><div style={{...S.lbl,marginBottom:8}}>Sexo</div><select style={S.inp} value={ep.gender||""} onChange={e=>setEp({...ep,gender:e.target.value})}>{["","Hombre","Mujer","Otro"].map(o=><option key={o} value={o}>{o||"Seleccionar…"}</option>)}</select></div>
-          <div><div style={{...S.lbl,marginBottom:8}}>Objetivo</div><select style={S.inp} value={ep.goal||""} onChange={e=>setEp({...ep,goal:e.target.value})}>{["","Perder peso","Ganar músculo","Mejorar resistencia","Mantener forma"].map(o=><option key={o} value={o}>{o||"Seleccionar…"}</option>)}</select></div>
+          <div><div style={{...S.lbl,marginBottom:8}}>Sexo</div><select style={S.inp} value={ep.gender||""} onChange={e=>setEp({...ep,gender:e.target.value})}>{["","Hombre","Mujer","Otro"].map(o=><option key={o} value={o}>{o||"Seleccionarâ€¦"}</option>)}</select></div>
+          <div><div style={{...S.lbl,marginBottom:8}}>Objetivo</div><select style={S.inp} value={ep.goal||""} onChange={e=>setEp({...ep,goal:e.target.value})}>{["","Perder peso","Ganar mÃºsculo","Mejorar resistencia","Mantener forma"].map(o=><option key={o} value={o}>{o||"Seleccionarâ€¦"}</option>)}</select></div>
         </div>
         <div style={{display:"flex",alignItems:"center",gap:12,marginTop:16}}>
           <button style={S.btn(G.accent)} onClick={save}>Guardar perfil</button>
-          {saved&&<span style={{fontSize:12,color:G.accent}}>✓ Guardado</span>}
+          {saved&&<span style={{fontSize:12,color:G.accent}}>âœ“ Guardado</span>}
         </div>
       </div>
 
@@ -1484,22 +1484,22 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
           </div>
         </div>
         <div style={{background:G.dim,borderRadius:12,padding:14,marginBottom:14}}>
-          <div style={{fontSize:12,color:G.amber,fontWeight:700,marginBottom:6}}>⚠ Limitación técnica</div>
+          <div style={{fontSize:12,color:G.amber,fontWeight:700,marginBottom:6}}>âš  LimitaciÃ³n tÃ©cnica</div>
           <p style={{fontSize:12,color:G.muted,lineHeight:1.7}}>Las apps web (PWA) no pueden leer ni escribir directamente en el Calendario del iPhone por restricciones de seguridad de Apple. Solo es posible desde una app nativa.</p>
         </div>
-        <div style={{...S.lbl,marginBottom:10}}>Lo que sí puedes hacer:</div>
+        <div style={{...S.lbl,marginBottom:10}}>Lo que sÃ­ puedes hacer:</div>
         <div style={{display:"flex",flexDirection:"column",gap:8}}>
           <button style={S.btn(G.blue)} onClick={()=>{
             const date = new Date(); date.setDate(date.getDate()+1); date.setHours(7,30,0);
             const end  = new Date(date); end.setMinutes(end.getMinutes()+45);
             const fmt  = d=>d.toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";
-            const ics  = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmt(date)}\nDTEND:${fmt(end)}\nSUMMARY:Entrenamiento VitaSync\nDESCRIPTION:Sesión programada desde VitaSync\nEND:VEVENT\nEND:VCALENDAR`;
+            const ics  = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmt(date)}\nDTEND:${fmt(end)}\nSUMMARY:Entrenamiento VitaSync\nDESCRIPTION:SesiÃ³n programada desde VitaSync\nEND:VEVENT\nEND:VCALENDAR`;
             const blob = new Blob([ics],{type:"text/calendar"});
             const url  = URL.createObjectURL(blob);
             const a    = document.createElement("a"); a.href=url; a.download="entrenamiento.ics"; a.click();
-          }}>📅 Exportar evento .ics al Calendario</button>
+          }}>ðŸ“… Exportar evento .ics al Calendario</button>
           <button style={{...S.btn(G.dim),color:G.text,fontSize:13}} onClick={()=>window.open("calshow://","_blank")}>
-            📱 Abrir app Calendario
+            ðŸ“± Abrir app Calendario
           </button>
         </div>
       </div>
@@ -1507,36 +1507,36 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
       <div style={S.card}>
         <div style={{...S.lbl,marginBottom:6}}>Notificaciones iPhone</div>
         <div style={{display:"flex",gap:12,marginBottom:16}}>
-          <span style={{fontSize:12,color:G.muted}}>🌙 Noche: <span style={{color:G.accent,fontWeight:700}}>{notifTime}</span></span>
-          <span style={{fontSize:12,color:G.muted}}>☀️ Mañana: <span style={{color:G.amber,fontWeight:700}}>{morningTime}</span></span>
+          <span style={{fontSize:12,color:G.muted}}>ðŸŒ™ Noche: <span style={{color:G.accent,fontWeight:700}}>{notifTime}</span></span>
+          <span style={{fontSize:12,color:G.muted}}>â˜€ï¸ MaÃ±ana: <span style={{color:G.amber,fontWeight:700}}>{morningTime}</span></span>
         </div>
-        <button style={S.btn(G.blue)} onClick={onNotif}>📱 Configurar notificaciones</button>
+        <button style={S.btn(G.blue)} onClick={onNotif}>ðŸ“± Configurar notificaciones</button>
       </div>
 
       <div style={S.card}>
         <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
-          <div style={{width:48,height:48,borderRadius:14,background:G.dim,border:`2px solid ${G.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>⌚</div>
+          <div style={{width:48,height:48,borderRadius:14,background:G.dim,border:`2px solid ${G.border}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>âŒš</div>
           <div>
             <div style={{fontWeight:700,fontSize:16}}>Amazfit BIP 6 + Zepp</div>
             <div style={{fontSize:12,color:G.muted,marginTop:2}}>Importa tus datos desde la app Zepp</div>
           </div>
         </div>
         <div style={{background:G.dim,borderRadius:12,padding:14,marginBottom:14}}>
-          <div style={{fontSize:12,color:G.amber,fontWeight:700,marginBottom:6}}>⚠ Sin API pública oficial</div>
-          <p style={{fontSize:12,color:G.muted,lineHeight:1.7}}>Zepp/Amazfit no ofrece una API pública para conectar apps de terceros. No es posible acceder a tus datos con usuario y contraseña desde aquí sin violar sus términos de uso.</p>
+          <div style={{fontSize:12,color:G.amber,fontWeight:700,marginBottom:6}}>âš  Sin API pÃºblica oficial</div>
+          <p style={{fontSize:12,color:G.muted,lineHeight:1.7}}>Zepp/Amazfit no ofrece una API pÃºblica para conectar apps de terceros. No es posible acceder a tus datos con usuario y contraseÃ±a desde aquÃ­ sin violar sus tÃ©rminos de uso.</p>
         </div>
-        <div style={{...S.lbl,marginBottom:10}}>Cómo importar tus datos reales:</div>
+        <div style={{...S.lbl,marginBottom:10}}>CÃ³mo importar tus datos reales:</div>
         <div style={{fontSize:12,color:G.muted,lineHeight:1.9,marginBottom:14}}>
           1. Abre la app <strong style={{color:G.text}}>Zepp</strong> en tu iPhone<br/>
-          2. Ve a <strong style={{color:G.text}}>Perfil → Exportar datos</strong><br/>
+          2. Ve a <strong style={{color:G.text}}>Perfil â†’ Exportar datos</strong><br/>
           3. Descarga el archivo CSV o JSON<br/>
-          4. Impórtalo aquí con el botón de abajo
+          4. ImpÃ³rtalo aquÃ­ con el botÃ³n de abajo
         </div>
         <label style={{...S.btn(G.accent),display:"block",textAlign:"center",cursor:"pointer"}}>
-          📂 Importar CSV de Zepp
+          ðŸ“‚ Importar CSV de Zepp
           <input type="file" accept=".csv,.json,.zip" style={{display:"none"}} onChange={e=>{
             const f=e.target.files[0]; if(!f) return;
-            alert(`Archivo recibido: ${f.name}\n\nEn la siguiente versión procesaremos los datos reales de Zepp.`);
+            alert(`Archivo recibido: ${f.name}\n\nEn la siguiente versiÃ³n procesaremos los datos reales de Zepp.`);
           }}/>
         </label>
         <button style={{...S.btn(G.dim),color:G.text,fontSize:12,marginTop:8,width:"100%"}} onClick={()=>window.open("zepp://","_blank")}>
@@ -1547,11 +1547,11 @@ function SettingsView({profile,setProfile,onNotif,notifTime,morningTime}) {
   );
 }
 
-// ── ROOT ──────────────────────────────────────────────────────────────────────
+// â”€â”€ ROOT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const navItems = [
   {id:"dashboard",Icon:LayoutDashboard,label:"Inicio",   color:null   },
-  {id:"heart",    Icon:Heart,          label:"Corazón",  color:G.red  },
-  {id:"sleep",    Icon:Moon,           label:"Sueño",    color:G.blue },
+  {id:"heart",    Icon:Heart,          label:"CorazÃ³n",  color:G.red  },
+  {id:"sleep",    Icon:Moon,           label:"SueÃ±o",    color:G.blue },
   {id:"activity", Icon:Activity,       label:"Actividad",color:G.amber},
   {id:"wellness", Icon:Leaf,           label:"Bienestar",color:G.green},
   {id:"diet",     Icon:UtensilsCrossed,label:"Dieta",    color:G.amber},
@@ -1610,7 +1610,7 @@ export default function HealthApp() {
   const LiveDot = ()=>(
     <div style={{position:"fixed",top:12,right:16,zIndex:200,display:"flex",alignItems:"center",gap:5,background:G.card,border:`1px solid ${G.border}`,borderRadius:20,padding:"4px 10px",fontSize:10,color:dataStatus==="ok"?G.accent:dataStatus==="loading"?G.amber:G.muted}}>
       <span style={{width:6,height:6,borderRadius:"50%",background:dataStatus==="ok"?G.accent:dataStatus==="loading"?G.amber:G.muted,display:"inline-block",animation:dataStatus==="loading"?"pulse 1.5s infinite":"none"}}/>
-      {dataStatus==="ok"?"⌚ En vivo":dataStatus==="loading"?"Conectando…":"Sin datos del reloj"}
+      {dataStatus==="ok"?"âŒš En vivo":dataStatus==="loading"?"Conectandoâ€¦":"Sin datos del reloj"}
     </div>
   );
 
@@ -1627,7 +1627,7 @@ export default function HealthApp() {
         @keyframes pulse{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.1)}}
       `}</style>
 
-      {/* SIDEBAR — solo en escritorio */}
+      {/* SIDEBAR â€” solo en escritorio */}
       {!mobile&&<nav style={S.sidebar}>
         <div style={{color:G.accent,marginBottom:20,display:"flex",alignItems:"center",justifyContent:"center"}}>
           <Heart size={20} fill={G.accent} color={G.accent}/>
@@ -1646,7 +1646,7 @@ export default function HealthApp() {
       {/* MAIN CONTENT */}
       <main style={mobile?S.mainMobile:S.main}>{views[view]}</main>
 
-      {/* BOTTOM NAV — solo en móvil */}
+      {/* BOTTOM NAV â€” solo en mÃ³vil */}
       {mobile&&<nav style={S.bottomNav}>
         {navItems.map(n=>{
           const active = view===n.id;
@@ -1668,3 +1668,4 @@ export default function HealthApp() {
     </RealDataCtx.Provider>
   );
 }
+
