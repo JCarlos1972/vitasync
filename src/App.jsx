@@ -670,7 +670,7 @@ function useWidgets(sec) {
 }
 
 // ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
+function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
   const W = useWidgets("dashboard");
   const ds = weeklyDatasets[weekMetric];
   const name = profile.name || "Usuario";
@@ -698,14 +698,14 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
       <div>
-        <div style={{fontSize:13,color:G.muted,marginBottom:4}}>Jueves, 12 de marzo · 2026</div>
+        <div style={{fontSize:13,color:G.muted,marginBottom:4}}>{new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}</div>
         <h1 style={{fontSize:28,fontWeight:800,letterSpacing:"-0.02em",margin:0}}>Buenos días, {name} ✦</h1>
       </div>
 
       {/* TOP RINGS */}
       {W.has("rings")&&<div style={S.card}>
         <div style={{...S.lbl,marginBottom:16}}>Estado General de Hoy</div>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:8}}>
+        <div style={{display:"grid",gridTemplateColumns:mobile?"repeat(2,1fr)":"repeat(4,1fr)",gap:8}}>
           {[
             {label:"Disponibilidad",topic:"Disponibilidad",value:readiness,max:100,  sublabel:"%",from:grad.accent[0],to:grad.accent[1],nav:"wellness"},
             {label:"Pasos",         topic:"Pasos",         value:steps,   max:12000,sublabel:"", from:grad.green[0], to:grad.green[1], nav:"activity"},
@@ -762,7 +762,7 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
           onMouseEnter={e=>e.currentTarget.style.opacity="0.9"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:10}}>
             <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Sueño Anoche</span><InfoTip topic="Sueño"/></div>
-            <span style={S.badge(G.blue)}>{slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE"} · {slpScore}/100</span>
+            <span style={S.badge(G.blue)}>{slpBadge ?? (slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE")} · {slpScore}/100</span>
           </div>
           <div style={{fontFamily:mono,fontSize:26,fontWeight:700,color:G.blue,marginBottom:10}}>{Math.floor(slpHrs)}h {Math.round((slpHrs%1)*60)}<span style={{fontSize:13,color:G.muted,fontFamily:font}}> min</span></div>
           <div style={{display:"flex",gap:8,marginBottom:12}}>
@@ -910,6 +910,11 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate}) {
 // ── HEART VIEW ────────────────────────────────────────────────────────────────
 function HeartView() {
   const W = useWidgets("heart");
+  const rd = useRealData();
+  const hrRate  = rd?.heart?.rate    ?? 68;
+  const hrRest  = rd?.heart?.resting ?? 58;
+  const hrMax   = rd?.heart?.max     ?? 147;
+  const spo2    = rd?.heart?.spo2    ?? null;
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
       <SectionHero accentColor="#FF3B30" bgColor="#3A0010">
@@ -922,10 +927,9 @@ function HeartView() {
         </div>
         {W.has("rings")&&<div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10}}>
           {[
-            {label:"FC Reposo",topic:"FC Reposo",value:58,  max:100,sublabel:"bpm",from:grad.red[0],   to:grad.red[1]},
-            {label:"SpO₂",    topic:"SpO₂",     value:97,  max:100,sublabel:"%",  from:grad.garnet[0],to:grad.garnet[1]},
-            {label:"HRV",     topic:"HRV",       value:49,  max:80, sublabel:"ms", from:grad.purple[0],to:grad.purple[1]},
-            {label:"FC Máx.", topic:"FC",        value:147, max:200,sublabel:"bpm",from:grad.amber[0], to:grad.amber[1]},
+            {label:"FC Reposo",topic:"FC Reposo",value:hrRest,max:100,sublabel:"bpm",from:grad.red[0],   to:grad.red[1]},
+            ...(spo2?[{label:"SpO₂",topic:"SpO₂",value:spo2,max:100,sublabel:"%",from:grad.garnet[0],to:grad.garnet[1]}]:[]),
+            {label:"FC Máx.", topic:"FC",        value:hrMax, max:200,sublabel:"bpm",from:grad.amber[0], to:grad.amber[1]},
           ].map(r=>(
             <div key={r.label} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8,padding:"8px 0"}}>
               <GradientRing value={r.value} max={r.max} colorFrom={r.from} colorTo={r.to} size={94} label={r.value} sublabel={r.sublabel}/>
@@ -941,7 +945,7 @@ function HeartView() {
           <span style={S.badge(G.coral)}>ACTIVO</span>
         </div>
         <div style={{display:"flex",gap:28,marginBottom:14,flexWrap:"wrap"}}>
-          {[{l:"Actual",v:"68",u:"bpm",c:G.coral},{l:"Máx.",v:"147",u:"bpm",c:G.amber},{l:"Mín.",v:"52",u:"bpm",c:G.blue},{l:"Media",v:"78",u:"bpm",c:G.muted}].map(x=>(
+          {[{l:"Actual",v:`${hrRate}`,u:"bpm",c:G.coral},{l:"Máx.",v:`${hrMax}`,u:"bpm",c:G.amber},{l:"Mín.",v:`${hrRest}`,u:"bpm",c:G.blue},{l:"Media",v:`${hrRate}`,u:"bpm",c:G.muted}].map(x=>(
             <div key={x.l}>
               <div style={{fontSize:10,color:G.muted,marginBottom:2}}>{x.l}</div>
               <div style={{fontFamily:mono,fontSize:22,fontWeight:800,color:x.c}}>{x.v}<span style={{fontSize:11,color:G.muted,fontWeight:400}}> {x.u}</span></div>
@@ -959,11 +963,11 @@ function HeartView() {
         </ResponsiveContainer>
       </div>}
 
-      {W.has("spo2hrv")&&<div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+      {W.has("spo2hrv")&&<div style={{display:"grid",gridTemplateColumns:"1fr",gap:16}}>
         <div style={S.card}>
           <div style={{display:"flex",gap:5,alignItems:"center",marginBottom:4}}><span style={S.lbl}>SpO₂ — 24h</span><InfoTip topic="SpO₂"/></div>
           <div style={{display:"flex",gap:20,marginBottom:12}}>
-            {[{l:"Actual",v:"97",c:G.garnet},{l:"Mín.",v:"94",c:G.coral},{l:"Media",v:"97",c:G.muted}].map(x=>(
+            {[{l:"Actual",v:spo2?`${spo2}`:"--",c:G.garnet},{l:"Mín.",v:spo2?`${spo2-1}`:"--",c:G.coral},{l:"Media",v:spo2?`${spo2}`:"--",c:G.muted}].map(x=>(
               <div key={x.l}>
                 <div style={{fontSize:9,color:G.muted,marginBottom:1}}>{x.l}</div>
                 <div style={{fontFamily:mono,fontSize:20,fontWeight:800,color:x.c}}>{x.v}<span style={{fontSize:10,color:G.muted}}>%</span></div>
@@ -1020,6 +1024,14 @@ function HeartView() {
 // ── SLEEP VIEW ────────────────────────────────────────────────────────────────
 function SleepView() {
   const W = useWidgets("sleep");
+  const rd = useRealData();
+  const slpHrs   = rd?.sleep?.totalHrs ?? 7.3;
+  const slpDeep  = rd?.sleep?.deepMin  ?? 95;
+  const slpScore = rd?.sleep?.score    ?? 84;
+  const hrRest   = rd?.heart?.resting  ?? 52;
+  const slpH     = Math.floor(slpHrs);
+  const slpM     = Math.round((slpHrs % 1) * 60);
+  const slpBadge = slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE";
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
       {/* Deep blue night sky — like Bevel screenshot */}
@@ -1027,18 +1039,18 @@ function SleepView() {
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:20}}>
           <div>
             <div style={{fontSize:12,letterSpacing:"0.1em",textTransform:"uppercase",color:"#6080C0",fontWeight:600,marginBottom:6}}>Sueño & Recuperación</div>
-            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Anoche · 7h 20m</h2>
+            <h2 style={{fontSize:26,fontWeight:800,margin:0}}>Anoche · {slpH}h {slpM}m</h2>
           </div>
           <Moon size={34} color="#4D9EFF" style={{opacity:0.85}}/>
         </div>
         {W.has("rings")&&(
           <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:20}}>
             <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
-              <GradientRing value={84} max={100} colorFrom={grad.blue[0]} colorTo={grad.blue[1]} size={130} label={84} sublabel="%"/>
+              <GradientRing value={slpScore} max={100} colorFrom={grad.blue[0]} colorTo={grad.blue[1]} size={130} label={slpScore} sublabel="%"/>
               <div style={{display:"flex",gap:4,alignItems:"center"}}><span style={{fontSize:12,color:"#6080C0"}}>Puntuación de sueño</span><InfoTip topic="Sueño"/></div>
             </div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,width:"100%"}}>
-              {[...sleepPhaseSummary,{fase:"FC Mín",min:null,bpm:52,color:G.coral}].map(s=>(
+              {[...sleepPhaseSummary,{fase:"FC Mín",min:null,bpm:hrRest,color:G.coral}].map(s=>(
                 <div key={s.fase} style={{padding:"10px 8px",background:"#FFFFFF0A",borderRadius:12,border:`1px solid ${s.color}28`,textAlign:"center"}}>
                   <div style={{display:"flex",gap:5,alignItems:"center",justifyContent:"center",marginBottom:5}}>
                     <div style={{width:8,height:8,borderRadius:"50%",background:s.color}}/>
@@ -1090,11 +1102,15 @@ function SleepView() {
 function ActivityView() {
   const W = useWidgets("activity");
   const [workout,setWorkout] = useState(null);
+  const rd = useRealData();
+  const steps  = rd?.activity?.steps    ?? 8900;
+  const cals   = rd?.activity?.calories ?? 420;
+  const stands = rd?.activity?.stands   ?? 9;
   const actGoals = [
-    {label:"Pasos",       topic:"Pasos",    value:8900,max:12000,from:grad.accent[0],to:grad.accent[1]},
-    {label:"Cal. activas",topic:"Calorías", value:420, max:600,  from:grad.amber[0], to:grad.amber[1]},
-    {label:"De Pie",      topic:"De Pie",   value:9,   max:12,   from:grad.green[0], to:grad.green[1]},
-    {label:"Pisos",       topic:"Pisos",    value:8,   max:10,   from:grad.purple[0],to:grad.purple[1]},
+    {label:"Pasos",       topic:"Pasos",    value:steps, max:12000,from:grad.accent[0],to:grad.accent[1]},
+    {label:"Cal. activas",topic:"Calorías", value:cals,  max:600,  from:grad.amber[0], to:grad.amber[1]},
+    {label:"De Pie",      topic:"De Pie",   value:stands,max:12,   from:grad.green[0], to:grad.green[1]},
+    {label:"Pisos",       topic:"Pisos",    value:8,     max:10,   from:grad.purple[0],to:grad.purple[1]},
   ];
   const actIcons = {run:"🏃",bike:"🚴",yoga:"🧘"};
   if (workout) return <WorkoutDetail type={workout} onBack={()=>setWorkout(null)}/>;
@@ -1203,6 +1219,14 @@ function ActivityView() {
 // ── WELLNESS VIEW ─────────────────────────────────────────────────────────────
 function WellnessView() {
   const W = useWidgets("wellness");
+  const rd = useRealData();
+  const stress   = rd?.wellness?.stress ?? 28;
+  const pai      = rd?.wellness?.pai    ?? 13;
+  const battery  = rd?.wellness?.battery ?? 25;
+  const slpScore = rd?.sleep?.score     ?? 84;
+  const readiness = Math.round(Math.min(100, Math.max(0,
+    (slpScore * 0.4) + ((100 - stress) * 0.35) + (pai * 2)
+  )));
   return (
     <div style={{display:"flex",flexDirection:"column",gap:20}}>
       {/* Deep forest green calm */}
@@ -1573,7 +1597,7 @@ export default function HealthApp() {
   },[]);
 
   const views = {
-    dashboard:<Dashboard weekMetric={weekMetric} setWeekMetric={setWeekMetric} profile={profile} onNavigate={setView}/>,
+    dashboard:<Dashboard weekMetric={weekMetric} setWeekMetric={setWeekMetric} profile={profile} onNavigate={setView} mobile={mobile}/>,
     heart:    <HeartView/>,
     sleep:    <SleepView/>,
     activity: <ActivityView/>,
