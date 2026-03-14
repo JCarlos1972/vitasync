@@ -762,7 +762,7 @@ function Dashboard({weekMetric,setWeekMetric,profile,onNavigate,mobile}) {
           onMouseEnter={e=>e.currentTarget.style.opacity="0.9"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:10}}>
             <div style={{display:"flex",gap:5,alignItems:"center"}}><span style={S.lbl}>Sueño Anoche</span><InfoTip topic="Sueño"/></div>
-            <span style={S.badge(G.blue)}>{slpBadge ?? (slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE")} · {slpScore}/100</span>
+            <span style={S.badge(G.blue)}>{slpScore>=80?"BUENO":slpScore>=60?"REGULAR":"MEJORABLE"} · {slpScore}/100</span>
           </div>
           <div style={{fontFamily:mono,fontSize:26,fontWeight:700,color:G.blue,marginBottom:10}}>{Math.floor(slpHrs)}h {Math.round((slpHrs%1)*60)}<span style={{fontSize:13,color:G.muted,fontFamily:font}}> min</span></div>
           <div style={{display:"flex",gap:8,marginBottom:12}}>
